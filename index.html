@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bugtvind">
 <style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
 </head>
 <body>
@@ -92,7 +95,18 @@ button{font:inherit;color:inherit}
 .key span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .key i{width:16px;height:6px;border-radius:3px;display:inline-block}
 .key .feed i{width:8px;height:8px;border-radius:50%}
-.credit{position:absolute;right:12px;bottom:8px;font-size:10px;color:#fff;opacity:.85;text-shadow:0 1px 3px rgba(15,20,60,.9);z-index:2;text-align:right}
+.fs{position:absolute;right:12px;bottom:12px;width:38px;height:38px;padding:8px;cursor:pointer;z-index:4;display:grid;place-items:center;color:var(--ink)}
+.fs svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fs .out,.frame.full .fs .in{display:none}
+.frame.full .fs .out{display:inline}
+.fs:hover{border-color:var(--gold)}
+/* fuld skærm: kun kort og tidsskyder */
+.frame.full{position:fixed;inset:0;z-index:50;width:100%;height:100%;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border:0;border-radius:0;box-shadow:none;background:var(--sea-1)}
+.frame.full .map{flex:none;height:min(calc(100dvh - 62px),calc(100vw * 741 / 560));width:auto}
+.frame.full .time{width:min(100%,calc((100dvh - 62px) * 560 / 741));flex:none}
+.frame.full .info{display:none}
+html.fs-lock{overflow:hidden}
+.credit{position:absolute;right:58px;bottom:8px;font-size:10px;color:#fff;opacity:.85;text-shadow:0 1px 3px rgba(15,20,60,.9);z-index:2;text-align:right}
 
 .spot{position:absolute;width:0;height:0;border:0;padding:0;background:none;cursor:pointer;--c:var(--muted);--on:var(--on-status)}
 .spot.go{--c:var(--go)} .spot.warn{--c:var(--warn);--on:var(--on-warn)} .spot.stop{--c:var(--stop)}
@@ -164,7 +178,7 @@ button{font:inherit;color:inherit}
   .key div{gap:2px 9px}
   .key i{width:11px}
   .feed{font-size:10px}
-  .credit{font-size:9px}
+  .credit{font-size:9px;right:12px;bottom:54px;max-width:36%}
   .time{grid-template-columns:minmax(0,1fr) auto}
   .time input{grid-column:1/-1;grid-row:2}
 }
@@ -190,6 +204,7 @@ button{font:inherit;color:inherit}
         <span><i style="background:var(--off)"></i>fralands</span></div>
         <button class="feed" id="feed" type="button" title="Hent vejret igen"><i></i><span id="feedtxt">Henter vejr…</span></button>
       </div>
+      <button class="fs glass" id="fs" type="button" aria-label="Fuld skærm" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path class="in" d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5"/><path class="out" d="M8 3v5H3M17 8h-5V3M12 17v-5h5M3 12h5v5"/></svg></button>
       <div class="credit">Vejr: Open-Meteo · Kort © OpenStreetMap</div>
     </div>
     <div class="time">
@@ -519,6 +534,17 @@ new MutationObserver(repaint).observe(document.documentElement, { attributes:tru
 $("#t").addEventListener("input", e => { S.t = +e.target.value; render(); });
 $("#now").addEventListener("click", () => { S.t = 0; render(); });
 $("#feed").addEventListener("click", load);
+// fuld skærm: rigtig fuldskærm hvor browseren tillader det, ellers fylder rammen hele siden
+const frame = $(".frame"), fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+const setFull = on => { frame.classList.toggle("full", on); document.documentElement.classList.toggle("fs-lock", on); $("#fs").setAttribute("aria-pressed", on); $("#fs").setAttribute("aria-label", on ? "Luk fuld skærm" : "Fuld skærm"); };
+$("#fs").addEventListener("click", () => {
+  if (frame.classList.contains("full")) { setFull(false); if (fsEl()) (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+  setFull(true);
+  const req = frame.requestFullscreen || frame.webkitRequestFullscreen;
+  if (req) { try { const p = req.call(frame); if (p && p.catch) p.catch(() => {}); } catch {} }
+});
+for (const ev of ["fullscreenchange", "webkitfullscreenchange"]) document.addEventListener(ev, () => { if (!fsEl() && frame.dataset.wasFs) setFull(false); frame.dataset.wasFs = fsEl() ? "1" : ""; });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && frame.classList.contains("full")) setFull(false); });
 load().then(() => { if (still) { for (let i = 0; i < 60; i++) tick(); } else tick(); });
 setInterval(() => { if (!document.hidden) load(); }, 15 * 60 * 1000);
 })();
