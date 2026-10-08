@@ -128,6 +128,8 @@ html.fs-lock{overflow:hidden}
 
 /* spotkort inde i rammen */
 .info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px;background:var(--panel);border-top:1px solid var(--rule);min-width:0}
+.info .hint{color:var(--muted);text-align:center}
+.info.empty{justify-content:center}
 .info header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .info h2{font-size:25px}
 .x{border:0;background:none;font-size:20px;line-height:1;padding:2px 4px;cursor:pointer;color:var(--muted)}
@@ -402,7 +404,7 @@ function fromSnap() {
 }
 const empty = () => { const o = {}; SPOTS.forEach(s => o[s.id] = { ws:[null], wd:[null], wg:[null], ta:[null], wc:[null] }); return { at:Date.now(), times:[hourKey()], spots:o, sea:{ wave:[], sst:[], sl:[] }, sun:{} }; };
 
-const S = { data:null, mode:"load", t:0, sel:"akrogen", open:true };
+const S = { data:null, mode:"load", t:0, sel:null, open:true };
 
 async function load() {
   $("#feedtxt").textContent = "Henter vejr…";
@@ -484,7 +486,9 @@ function render() {
 }
 
 function renderInfo(r) {
-  const D = S.data, t = S.t, s = r.s, w = r.w || {}, box = $("#info"); box.textContent = ""; 
+  const box = $("#info"); box.textContent = ""; box.classList.toggle("empty", !r);
+  if (!r) { box.append(el("p", "hint", "Tryk på et spot for at se vejret der.")); return; }
+  const D = S.data, t = S.t, s = r.s, w = r.w || {}; 
   const head = el("header"), hl = el("div"); hl.append(el("span", "label", whenText(t)), el("h2", null, s.name));
   head.append(hl);
   const v = el("div", "verdict"); v.append(el("span", "chip " + r.j.level, r.j.word), el("strong", null, r.j.kind));
@@ -534,6 +538,7 @@ new MutationObserver(repaint).observe(document.documentElement, { attributes:tru
 $("#t").addEventListener("input", e => { S.t = +e.target.value; render(); });
 $("#now").addEventListener("click", () => { S.t = 0; render(); });
 $("#feed").addEventListener("click", load);
+$("#map").addEventListener("click", e => { if (S.sel && !e.target.closest(".spot,.fs,.key,.hud,.north")) { S.sel = null; render(); } });
 // fuld skærm: rigtig fuldskærm hvor browseren tillader det, ellers fylder rammen hele siden
 const frame = $(".frame"), fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
 const setFull = on => { frame.classList.toggle("full", on); document.documentElement.classList.toggle("fs-lock", on); $("#fs").setAttribute("aria-pressed", on); $("#fs").setAttribute("aria-label", on ? "Luk fuld skærm" : "Fuld skærm"); };
