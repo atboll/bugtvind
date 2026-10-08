@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<title>Bugtvind</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Marcellus+SC&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<style>
+/* Layout: et malet kort som scene til venstre, spotlisten som følge til højre; detaljer og steder nedenunder. Vinden tegnes som lysende tråde. */
+:root{
+  --sky-a:#fbe3c4; --sky-b:#cfe9e4; --panel:#fffaf0; --panel2:#f6ecd9; --ink:#2a1f47; --muted:#6a5f82; --rule:#d9b876;
+  --gold:#c98a1e; --accent:#d8436b; --accent-ink:#ffffff; --teal:#1c8a90;
+  --go:#17946a; --warn:#d98f0a; --stop:#cf3349; --on-status:#ffffff; --on-warn:#2a1a00;
+  --sea-1:#1d4f7c; --sea-2:#1f7f9c; --sea-3:#35b0b3; --sea-4:#8fdccb; --foam:#fdf3d6;
+  --on:#3aa76d; --side:#3aa76d; --off:#e0364f; --onshore:#f0b429;
+  --sand:#f3cf8a; --sand-2:#e4b06a; --land-hi:#c6d47a; --land:#9cc468; --land-sh:#6aa680;
+  --autumn-hi:#f3c878; --autumn:#eaa25e; --wood:#3f7c68; --town:#d9a79a; --town-2:#b98398; --thread:#fff4d2;
+  --font-display:"Marcellus","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --font-caps:"Marcellus SC","Marcellus",Georgia,serif;
+  --font-body:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --lift:0 10px 30px -14px rgba(42,31,71,.45);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --sky-a:#1d1440; --sky-b:#0f2c3c; --panel:#251b49; --panel2:#2f2459; --ink:#f7ecdc; --muted:#b9add2; --rule:#8a6a34;
+  --gold:#f2bf5e; --accent:#ff7f96; --accent-ink:#3a0a18; --teal:#58cfd0;
+  --go:#45d19a; --warn:#ffc552; --stop:#ff6f82; --on-status:#0c1a14; --on-warn:#2a1a00;
+  --sea-1:#141a4a; --sea-2:#1c3a6e; --sea-3:#22688a; --sea-4:#3f9fa3; --foam:#f6c98c;
+  --sand:#c98a5a; --sand-2:#a8654f; --land-hi:#6f9160; --land:#4f7b5c; --land-sh:#365a62;
+  --autumn-hi:#b98a58; --autumn:#9a6452; --wood:#27504f; --town:#8a5f84; --town-2:#6a4a78; --thread:#ffe7b0;
+  --lift:0 12px 34px -14px rgba(0,0,0,.7);
+  color-scheme:dark } }
+:root[data-theme="dark"]{
+  --sky-a:#1d1440; --sky-b:#0f2c3c; --panel:#251b49; --panel2:#2f2459; --ink:#f7ecdc; --muted:#b9add2; --rule:#8a6a34;
+  --gold:#f2bf5e; --accent:#ff7f96; --accent-ink:#3a0a18; --teal:#58cfd0;
+  --go:#45d19a; --warn:#ffc552; --stop:#ff6f82; --on-status:#0c1a14; --on-warn:#2a1a00;
+  --sea-1:#141a4a; --sea-2:#1c3a6e; --sea-3:#22688a; --sea-4:#3f9fa3; --foam:#f6c98c;
+  --sand:#c98a5a; --sand-2:#a8654f; --land-hi:#6f9160; --land:#4f7b5c; --land-sh:#365a62;
+  --autumn-hi:#b98a58; --autumn:#9a6452; --wood:#27504f; --town:#8a5f84; --town-2:#6a4a78; --thread:#ffe7b0;
+  --lift:0 12px 34px -14px rgba(0,0,0,.7);
+  color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--sky-b) linear-gradient(165deg,var(--sky-a),var(--sky-b) 70%) fixed;color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5;min-height:100%}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:16px;padding-block:16px 24px;display:flex;flex-direction:column;gap:14px}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;margin:0;line-height:1.1;text-wrap:balance}
+h2{font-size:28px}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.label{font-family:var(--font-caps);font-size:13px;letter-spacing:.09em;color:var(--muted)}
+
+/* ramme */
+.frame{position:relative;width:min(100%,calc(100dvh - 150px));min-width:min(100%,340px);margin-inline:auto;border-radius:22px;border:1px solid var(--rule);box-shadow:var(--lift),0 0 0 5px color-mix(in srgb,var(--panel) 70%,transparent);background:var(--panel);overflow:hidden}
+.map{position:relative;aspect-ratio:1;background:var(--sea-2);overflow:hidden}
+.map canvas{position:absolute;inset:0;width:100%;height:100%}
+.map::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 70px rgba(30,16,60,.35)}
+.map #wind{pointer-events:none;mix-blend-mode:screen}
+.map #shore{pointer-events:none}
+.layer{position:absolute;inset:0}
+.glass{background:color-mix(in srgb,var(--panel) 90%,transparent);border:1px solid var(--rule);border-radius:14px}
+.place-name{position:absolute;transform:translate(-50%,-50%);font-family:var(--font-caps);font-size:13px;letter-spacing:.16em;color:#2a1f47;text-shadow:0 0 6px rgba(255,246,220,.9),0 0 2px rgba(255,246,220,.9);pointer-events:none;white-space:nowrap}
+.place-name.sea{color:#fff6dc;text-shadow:0 1px 6px rgba(15,20,60,.7);font-size:15px;letter-spacing:.22em;opacity:.85}
+.hud{position:absolute;left:12px;top:12px;padding:8px 14px 9px 12px;z-index:4;display:flex;flex-direction:column;gap:3px;max-width:calc(100% - 80px)}
+.hud h1{font-size:24px;letter-spacing:.01em}
+.hud .now{display:flex;align-items:center;gap:8px}
+.hud .big{font-family:var(--font-display);font-size:26px;line-height:1}
+.hud small{color:var(--muted);font-size:12px;line-height:1.3}
+.arrow{width:24px;height:24px;flex:none;transition:transform .5s}
+.arrow path{fill:var(--accent)}
+.feed{border:0;background:none;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);text-align:left}
+.feed i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.feed.live i{background:var(--go);animation:pulse 2s infinite}
+.feed.cache i,.feed.snap i{background:var(--warn)}
+.feed.none i{background:var(--stop)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--go)}70%{box-shadow:0 0 0 7px transparent}}
+.north{position:absolute;right:12px;top:12px;font-family:var(--font-caps);font-size:14px;border-radius:99px;padding:2px 10px;z-index:4}
+.key{position:absolute;left:12px;bottom:12px;z-index:4;padding:6px 12px 8px;font-size:12px;display:flex;flex-direction:column;gap:3px}
+.key div{display:flex;flex-wrap:wrap;gap:2px 12px}
+.key span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.key i{width:16px;height:6px;border-radius:3px;display:inline-block}
+.credit{position:absolute;right:12px;bottom:8px;font-size:10px;color:#fff6dc;opacity:.85;text-shadow:0 1px 3px rgba(15,20,60,.9);z-index:2;text-align:right}
+
+.spot{position:absolute;width:0;height:0;border:0;padding:0;background:none;cursor:pointer;--c:var(--muted);--on:var(--on-status)}
+.spot.go{--c:var(--go)} .spot.warn{--c:var(--warn);--on:var(--on-warn)} .spot.stop{--c:var(--stop)}
+.spot .line{position:absolute;left:0;top:-1px;height:2px;background:linear-gradient(90deg,#fff6dc,var(--c));transform-origin:0 50%;border-radius:2px}
+.spot .dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:#fff6dc;box-shadow:0 0 0 1.5px #2a1f47}
+.spot .kite{position:absolute;width:26px;height:26px;margin:-13px;transform:rotate(45deg);border-radius:7px 2px 7px 2px;border:2px solid #fff6dc;background:var(--c);box-shadow:0 0 0 1.5px #2a1f47,0 0 16px 2px var(--c);display:grid;place-items:center}
+.spot .kite b{transform:rotate(-45deg);font-family:var(--font-body);font-weight:700;font-size:13px;line-height:1;color:var(--on);font-variant-numeric:tabular-nums}
+.spot .tag{position:absolute;white-space:nowrap;font-family:var(--font-caps);font-size:13px;letter-spacing:.04em;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--rule);border-radius:99px;padding:0 9px 0 5px;line-height:1.55;display:inline-flex;align-items:center;gap:4px}
+.spot .tag svg{width:13px;height:13px;transition:transform .5s}
+.spot .tag path{fill:var(--accent)}
+.spot.sel{z-index:3}
+.spot.sel .kite{width:34px;height:34px;margin:-17px;box-shadow:0 0 0 1.5px #2a1f47,0 0 0 5px color-mix(in srgb,var(--c) 45%,transparent),0 0 22px 6px var(--c)}
+.spot.sel .kite b{font-size:16px}
+.spot.sel .tag{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.spot.sel .tag path{fill:var(--panel)}
+.spot:hover .kite{filter:brightness(1.1)}
+@media (prefers-reduced-motion:no-preference){ .spot.go .kite{animation:float 3.2s ease-in-out infinite} }
+@keyframes float{50%{translate:0 -4px}}
+
+/* spotkort inde i rammen */
+.info{position:absolute;right:12px;bottom:30px;width:min(318px,46%);z-index:5;padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--lift)}
+.info header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.info h2{font-size:25px}
+.x{border:0;background:none;font-size:20px;line-height:1;padding:2px 4px;cursor:pointer;color:var(--muted)}
+.verdict{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.chip{font-family:var(--font-caps);font-size:14px;letter-spacing:.03em;padding:3px 12px;border-radius:99px;color:var(--on-status);background:var(--muted);line-height:1.3}
+.chip.go{background:var(--go)} .chip.warn{background:var(--warn);color:var(--on-warn)} .chip.stop{background:var(--stop)}
+.wind{display:flex;gap:12px;align-items:center}
+.wind svg{width:74px;height:74px;flex:none;border-radius:50%;border:1px solid var(--rule)}
+.wind .big{font-family:var(--font-display);font-size:32px;line-height:1}
+.wind .big small{font-family:var(--font-body);font-size:13px;color:var(--muted)}
+.wind p{color:var(--muted);font-size:13px;line-height:1.35}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.trio div{background:var(--panel);padding:5px 8px}
+.trio b{display:block;font-family:var(--font-display);font-weight:400;font-size:19px;line-height:1.15}
+.trio .label{font-size:12px}
+.hours{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--panel2)}
+.hours ol{list-style:none;margin:0;padding:0;display:flex;width:max-content}
+.hr{width:34px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 0 0;border:0;border-right:1px solid color-mix(in srgb,var(--rule) 40%,transparent);background:none;cursor:pointer;font-size:11px}
+.hr.day{border-left:2px solid var(--gold)}
+.hr.cur{background:var(--panel)}
+.hr .t{color:var(--muted)}
+.hr .a{width:14px;height:14px}
+.hr .a path{fill:var(--ink)}
+.hr .s{font-family:var(--font-display);font-size:17px;line-height:1}
+.hr .g{color:var(--muted);line-height:1}
+.hr .bar{width:100%;height:6px;margin-top:3px;background:var(--muted)}
+.hr .bar.go{background:var(--go)} .hr .bar.warn{background:var(--warn)} .hr .bar.stop{background:var(--stop)}
+
+/* tid */
+.time{width:min(100%,calc(100dvh - 150px));min-width:min(100%,340px);margin-inline:auto;padding:10px 16px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-radius:16px;box-shadow:var(--lift)}
+.time .when{font-family:var(--font-display);font-size:22px;min-width:5.6em}
+.time input{width:100%;accent-color:var(--accent);min-width:0}
+.btn{font-family:var(--font-caps);font-size:15px;letter-spacing:.04em;border:1px solid var(--rule);border-radius:99px;background:var(--panel2);padding:3px 14px;cursor:pointer}
+.btn:hover{border-color:var(--gold)}
+
+@media (max-width:640px){
+  .info{position:static;width:auto;border:0;border-top:1px solid var(--rule);border-radius:0;box-shadow:none;background:var(--panel)}
+  .spot:not(.sel) .tag{display:none}
+  .spot .kite{width:22px;height:22px;margin:-11px} .spot .kite b{font-size:11px}
+  .place-name{font-size:10px} .place-name.sea{font-size:11px}
+  .hud h1{font-size:20px} .hud .big{font-size:22px}
+  .key{position:static;border:0;border-top:1px solid var(--rule);border-radius:0;background:var(--panel);padding:10px 14px 12px}
+  .credit{font-size:9px}
+  .time{grid-template-columns:minmax(0,1fr) auto}
+  .time input{grid-column:1/-1;grid-row:2}
+}
+</style>
+
+<div class="wrap">
+  <section class="frame" aria-label="Kitevejr for Aarhus Bugt">
+    <div class="map" id="map">
+      <canvas id="base" width="640" height="640" aria-hidden="true"></canvas>
+      <canvas id="shore" width="640" height="640" aria-hidden="true"></canvas>
+      <canvas id="wind" width="640" height="640" aria-hidden="true"></canvas>
+      <div class="layer" id="names" aria-hidden="true"></div>
+      <div class="layer" id="markers"></div>
+      <div class="hud glass" aria-live="polite">
+        <h1>Bugtvind</h1>
+        <div class="now"><svg class="arrow" id="hudarrow" viewBox="0 0 16 16"><path d="M8 1l5 6.2H9.6V15H6.4V7.2H3z"/></svg><span class="big num" id="hudspeed">–</span><small id="hudsub"></small></div>
+      </div>
+      <div class="north glass">N ↑</div>
+      <div class="credit">Vejr: Open-Meteo · Kyst © OpenStreetMap</div>
+    </div>
+    <div class="info glass" id="info" aria-live="polite"></div>
+    <div class="key glass"><b class="label">Vandet langs kysten</b><div>
+      <span><i style="background:var(--side)"></i>sidevind</span>
+      <span><i style="background:var(--onshore)"></i>pålands</span>
+      <span><i style="background:var(--off)"></i>fralands</span></div>
+      <button class="feed" id="feed" type="button" title="Hent vejret igen"><i></i><span id="feedtxt">Henter vejr…</span></button>
+    </div>
+  </section>
+  <div class="time">
+    <span class="when" id="when">Nu</span>
+    <input type="range" id="t" min="0" max="47" value="0" step="1" aria-label="Tidspunkt i prognosen">
+    <button class="btn" id="now" type="button">Nu</button>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+
+/* ---------- spots og steder ---------- */
+// facing = kompasretning fra stranden og ud over vandet
+const SPOTS = [
+  { id:"akrogen", name:"Åkrogen", lat:56.2052, lon:10.2838, facing:115 },
+  { id:"skaering", name:"Skæring Strand", lat:56.2290, lon:10.3200, facing:135 },
+  { id:"studstrup", name:"Studstrup", lat:56.2480, lon:10.3440, facing:125 },
+  { id:"begtrup", name:"Begtrup Vig", lat:56.1570, lon:10.5130, facing:235 },
+  { id:"ahl", name:"Ahl Strand", lat:56.1800, lon:10.6500, facing:265 },
+  { id:"moesgaard", name:"Moesgård Strand", lat:56.0890, lon:10.2470, facing:95 },
+  { id:"ajstrup", name:"Ajstrup Strand", lat:56.0450, lon:10.2630, facing:90 },
+  { id:"saksild", name:"Saksild Strand", lat:55.9750, lon:10.2680, facing:85 },
+];
+/* ---------- kort ---------- */
+const BOX = { l:10.06, r:10.82, b:55.905, t:56.33 };
+const px = lon => (lon - BOX.l) / (BOX.r - BOX.l), py = lat => (BOX.t - lat) / (BOX.t - BOX.b);
+// kystlinje fra OpenStreetMap, forenklet til ca. 100 m og pakket som base36-deltaer
+const COAST = (["0qp04uijibj5huiii5jkiyisiukfjdjhibibhuhzi7ibhriki9hqhzibi5hoi1hriei0j5inl7iojpgbkdhvk5jcjej2jsjlivh2ifgzi3gyhphqhlhxi7h6i6huhnhgi2huhih3h7fhhnh5ifihi8iuhviji7kijrjei8i8haiuigiohzikl2ghjwh2k1hxixhiidhwjcgpj1hlj7h4ithqipgdiwh3jai5i7ioi3hohzi4i9isi0hhhriwicirhxlvjji9ijhphohvi8hjhti4i9h6ioi5hwfxgti5hog9hbioj7iehxjaithdighzidi1hoh8hjiaibhsi2g9g9idiehni3iyikhohyinilhuhuhti8h9hbhwiwjhjihsi3kukgkgj4krinimiuj3igh9hrhui8ifidibhzi2igjujijeiijvi9j9ilikizhli1i0ijiohli0idili3hcihirhkioi7h3imi8hyhgj7i6iakbjcipi1iihoisi0jtj6gxj8i8idjcihjbhqizi9j1hnjwirkbheiyikihhqhhhbi7h9iqhok3hzhqhih3hvi2hsixhti4inj5isilhwj0h9ichxhqi8ibhui8i4j3hohihaiyhhhuhehnhvgdiagxhphtgwh0hfhthhh1hihgi0fng9i8hgj6itjjhtiihihkhfjngli2hjhihmhhhvhqi6hghegxhngziffni5gnj4j7j5j2idg0i2hvhpgoi6h0hqiehahkhvhohgfxhpfvhdfzhxhshvgpi7ioi3ifhsgyidini3hahzhhguichpj5i4h6hzi6i5iphxk4h1ighlhohsiahzhoi1imhii7gpk7h7lhi1jwixitjbjsigkzhokigukahji3ibi0huhohzhpi3i5i6iui1ini9ipi2iqhrimh7gffbgqhugeiah5hzgnh3k6ejk8f8lkj1izi2jnjki8jihuirhhilhwjpgtiqgkjchyiwicixj5j7jmiyivj2k4iti1iyipiiiiixjoiiiuijiwi4kvhsjki3j7hqimi5jghdj2h4ilgohph9h2hmiqi8hihqi6hqhmi0i1i8i3h2hri1i3hrhihngvhrgbinh6hyhrhfidh4hsi4i0hwjhgojlh4i2h4huipi9i7jahkhkhdihhzi7iaiji6ivhfjji7i4hthti6hjhwihi2hwhribi3hphrhki4ifhtiii8hvi6i7hvhdhphaijhjhvhqhchlidhohxjgh8jbhmkwi7izj0kimbh9lfibj9izjkj6iykmjbiziajzi5isiqk5j6knltj9izjjij","2mc04ujbjbi1j7gvj7hajwhjh8iphzhkhsihi0ifh1hrhsihhyiwh0hygzgogr","2f004uhyigipi5hpi7h4i1hvici0hphki6hmj8hki8hpiqiaihj0i4hri5iqi5ihhlilighkigihi8inhri3hkifi8iahbi4i6iehwhsikiri7inhpi0icf3j4gci3geifgniqftjtggk5h6kphmkwhqi4fsgueyfxhph5i9gij0fciyh4jgi8irhri9i2hli0i3i5j0i2kvgwk4ghiwg8hbgfhvgm","1ps0ddjfi7i3i6hji0ici0i4ibk2ifgvhrbuj3h4i4guhtjdgzkah1j8hsizie","131077i9ihipidh1hlhahsiehjidia","2wj0d7johpifi9hfigfni1ivhl","3150bohri1jbi0gyhz","2q50b8hrhvj9ifh0hq","2ks0bnhxhkiji2ifhti4ijh1i2","2pc0axflhpjehyjgihhlhw","2dl07si8hxi8i9hji5i1hp","2ek07ah7i7hthvidhoinia","2ig07mhqhoijhqisikgzi2","2gu05hiqhwibi7gpishchwhrinhphoioh4iuhu","2ix04vi2i7hdi4hxhn","31w12wk7i3inihgxiig9gy","2ha06vhxhpilhviriihghzi1ibhaho","0v617ygyhihnhdichyi7igijhrilibhhiaiai5iphnhnieihhyhgi6ihi9hiichthk"]).map(s => { const n = (a, b) => parseInt(s.slice(a, b), 36); let x = n(0, 3), y = n(3, 6); const p = [[10 + x / 5000, 55.85 + y / 5000]];
+  for (let i = 6; i < s.length; i += 4) { x += n(i, i + 2) - 648; y += n(i + 2, i + 4) - 648; p.push([10 + x / 5000, 55.85 + y / 5000]); } return p; });
+const WOOD = [[10.215,56.105,.022,.024],[10.225,56.183,.008,.006],[10.56,56.225,.05,.022],[10.53,56.115,.02,.012],[10.70,56.17,.02,.02],[10.13,56.02,.03,.02],[10.44,56.31,.05,.012],[10.30,56.30,.03,.015]];
+const TOWN = [[10.195,56.155,.045,.026],[10.275,56.215,.018,.008],[10.672,56.200,.012,.008],[10.16,55.975,.012,.007]];
+const NAMES = [["Aarhus",10.135,56.128],["Mols",10.56,56.24],["Helgenæs",10.53,56.118],["Ebeltoft",10.725,56.205],["Samsø",10.575,55.945],["Tunø",10.44,55.932,1],["Odder",10.145,55.975],["Kalø Vig",10.415,56.255,1],["Aarhus Bugt",10.37,56.065,1]];
+const FERRY = [[10.255,56.150],[10.36,56.10],[10.47,56.068],[10.62,56.045],[10.82,56.03]];
+const M = 640;
+
+const land = new Uint8Array(M * M).fill(1);
+(function buildMask() {
+  const c = document.createElement("canvas"); c.width = c.height = M; const x = c.getContext("2d", { willReadFrequently:true });
+  x.lineWidth = 2.4; x.lineJoin = x.lineCap = "round";
+  for (const ch of COAST) { x.beginPath(); ch.forEach((p, i) => i ? x.lineTo(px(p[0]) * M, py(p[1]) * M) : x.moveTo(px(p[0]) * M, py(p[1]) * M)); x.stroke(); }
+  const a = x.getImageData(0, 0, M, M).data, st = [];
+  for (const s of [[10.40,56.08],[10.78,56.02],[10.33,55.94]]) st.push(Math.floor(py(s[1]) * M) * M + Math.floor(px(s[0]) * M));
+  while (st.length) { const i = st.pop(); if (!land[i] || a[i * 4 + 3] > 40) continue; land[i] = 0; const X = i % M;
+    if (X > 0) st.push(i - 1); if (X < M - 1) st.push(i + 1); if (i >= M) st.push(i - M); if (i < M * (M - 1)) st.push(i + M); }
+})();
+function blur(src, r) { // to gange boks-sløring
+  let a = Float32Array.from(src), b = new Float32Array(M * M);
+  for (let pass = 0; pass < 2; pass++) {
+    for (let y = 0; y < M; y++) { let s = 0; const o = y * M; for (let x = -r; x <= r; x++) s += a[o + Math.min(M - 1, Math.max(0, x))];
+      for (let x = 0; x < M; x++) { b[o + x] = s / (2 * r + 1); s += a[o + Math.min(M - 1, x + r + 1)] - a[o + Math.max(0, x - r)]; } }
+    for (let x = 0; x < M; x++) { let s = 0; for (let y = -r; y <= r; y++) s += b[Math.min(M - 1, Math.max(0, y)) * M + x];
+      for (let y = 0; y < M; y++) { a[y * M + x] = s / (2 * r + 1); s += b[Math.min(M - 1, y + r + 1) * M + x] - b[Math.max(0, y - r) * M + x]; } }
+  }
+  return a;
+}
+const near = blur(land, 4), far = blur(land, 26);
+const h2 = (x, y) => { let h = (x * 374761393 + y * 668265263) ^ 0x5bd1e995; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+const vn = (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), fx = x - xi, fy = y - yi, u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy);
+  const a = h2(xi, yi), b = h2(xi + 1, yi), c = h2(xi, yi + 1), d = h2(xi + 1, yi + 1); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; };
+const fbm = (x, y) => vn(x, y) * .55 + vn(x * 2.1 + 7, y * 2.1 + 3) * .3 + vn(x * 4.3 + 1, y * 4.3 + 9) * .15;
+const inBlob = (lon, lat, list) => list.some(b => ((lon - b[0]) / b[2]) ** 2 + ((lat - b[1]) / b[3]) ** 2 < 1);
+
+// havpixels tæt på kysten: hvor de ligger, hvilken vej der er ind mod land, og hvor kraftigt de farves
+const COASTAL = [];
+for (let y = 2; y < M - 2; y++) for (let x = 2; x < M - 2; x++) { const i = y * M + x; if (land[i]) continue; const f = far[i]; if (f < .05 || near[i] > .2) continue;
+  const gx = far[i + 2] - far[i - 2], gy = far[i + 2 * M] - far[i - 2 * M], l = Math.hypot(gx, gy); if (l < .004) continue;
+  const br = fbm((x * .8 + y * .6) / 11, (y * .8 - x * .6) / 52), a = Math.min(1, (f - .05) / .12) * (.5 + br * .5);
+  COASTAL.push({ i, x, y, gx:gx / l, gy:gy / l, a:Math.round(a * 215) }); }
+
+function paint() {
+  const cs = getComputedStyle(document.documentElement);
+  const C = {}; for (const k of ["sea-1","sea-2","sea-3","sea-4","foam","sand","sand-2","land-hi","land","land-sh","autumn-hi","autumn","wood","town","town-2"]) {
+    const v = cs.getPropertyValue("--" + k).trim().replace("#", ""); C[k] = [parseInt(v.slice(0, 2), 16), parseInt(v.slice(2, 4), 16), parseInt(v.slice(4, 6), 16)]; }
+  const ctx = $("#base").getContext("2d"), img = ctx.createImageData(M, M), d = img.data;
+  for (let y = 0; y < M; y++) for (let x = 0; x < M; x++) {
+    const i = y * M + x, lon = BOX.l + (x + .5) / M * (BOX.r - BOX.l), lat = BOX.t - (y + .5) / M * (BOX.t - BOX.b);
+    const br = fbm((x * .8 + y * .6) / 11, (y * .8 - x * .6) / 52);   // lange penselstrøg
+    const n = fbm(x / 44, y / 44);
+    let k;
+    if (land[i]) {
+      if (near[i] < .86 + (br - .5) * .22) k = br > .52 ? C["sand"] : C["sand-2"];
+      else {
+        const lit = fbm((x - 9) / 86, (y - 9) / 86) - fbm(x / 86, y / 86) + (br - .5) * .05;
+        const tone = lit > .03 ? 0 : lit < -.034 ? 2 : 1;
+        if (inBlob(lon + (n - .5) * .03, lat + (br - .5) * .02, TOWN)) k = (br + n) > 1.02 ? C["town"] : tone === 2 ? C["town-2"] : C["town"];
+        else if (inBlob(lon + (n - .5) * .02, lat + (br - .5) * .012, WOOD)) k = tone === 0 ? C["land"] : tone === 1 ? C["wood"] : C["land-sh"];
+        else if (fbm(x / 120 + 9, y / 120 + 3) + (br - .5) * .1 > .62) k = tone === 0 ? C["autumn-hi"] : tone === 1 ? C["autumn"] : C["land-sh"];
+        else k = tone === 0 ? C["land-hi"] : tone === 1 ? C["land"] : C["land-sh"];
+      }
+    } else {
+      const s = far[i] + (br - .5) * .16 + (n - .5) * .08;
+      if (near[i] > .2 + (br - .5) * .16) k = C["foam"];
+      else if (s > .34) k = C["sea-4"];
+      else if (s > .15) k = br > .7 ? C["sea-4"] : C["sea-3"];
+      else if (s > .035) k = br > .72 ? C["sea-3"] : C["sea-2"];
+      else k = br > .74 ? C["sea-2"] : C["sea-1"];
+    }
+    d[i * 4] = k[0]; d[i * 4 + 1] = k[1]; d[i * 4 + 2] = k[2]; d[i * 4 + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+  ctx.setLineDash([3, 9]); ctx.lineWidth = 1.6; ctx.strokeStyle = "rgba(255,246,220,.55)"; ctx.beginPath();
+  FERRY.forEach((p, i) => i ? ctx.lineTo(px(p[0]) * M, py(p[1]) * M) : ctx.moveTo(px(p[0]) * M, py(p[1]) * M)); ctx.stroke(); ctx.setLineDash([]);
+}
+
+/* ---------- vindlogik ---------- */
+const DIRS = ["N","NNØ","NØ","ØNØ","Ø","ØSØ","SØ","SSØ","S","SSV","SV","VSV","V","VNV","NV","NNV"];
+const dirName = d => DIRS[Math.round(((d % 360) + 360) % 360 / 22.5) % 16];
+const rel = (dir, facing) => ((dir - facing + 540) % 360) - 180; // 0 = lige ind fra havet
+function judge(spot, w) {
+  if (!w || w.ws == null || w.wd == null) return { level:"none", word:"Ingen data", kind:"–", reasons:["Der er ingen prognose for dette tidspunkt."] };
+  const a = Math.abs(rel(w.wd, spot.facing)), g = w.wg ?? w.ws;
+  const kind = a <= 25 ? "Pålands" : a <= 65 ? "Side-pålands" : a <= 110 ? "Sidevind" : a <= 150 ? "Side-fralands" : "Fralands";
+  const stop = [], warn = [];
+  if (a > 110) stop.push(kind + ": vinden blæser dig væk fra land.");
+  if (w.ws < 5) stop.push("For lidt vind til at sejle (under 5 m/s).");
+  if (w.ws >= 18 || g >= 24) stop.push("For hård vind, også for øvede.");
+  if (w.wc >= 95) stop.push("Torden i prognosen.");
+  if (a <= 25) warn.push("Ren pålandsvind: du presses ind mod stranden, og det er svært at komme ud.");
+  if (w.ws >= 5 && w.ws < 7) warn.push("Let vind: kræver stor kite eller foil.");
+  if (w.ws >= 14 && w.ws < 18) warn.push("Hård vind: kun for øvede med lille kite.");
+  if (g - w.ws >= 6 || (w.ws >= 5 && g / w.ws > 1.6)) warn.push("Meget stødende vind (stød " + Math.round(g) + " m/s).");
+  if (stop.length) return { level:"stop", word:"Bliv på land", kind, reasons:stop.concat(warn) };
+  if (warn.length) return { level:"warn", word:"Pas på", kind, reasons:warn };
+  return { level:"go", word:"Kør", kind, reasons:[kind + " med " + Math.round(w.ws) + " m/s. Gode forhold for dette spot."] };
+}
+
+/* ---------- vejrdata ---------- */
+const TZ = "Europe/Copenhagen";
+const hourKey = (d = new Date()) => new Intl.DateTimeFormat("sv-SE", { timeZone:TZ, year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit" }).format(d).replace(" ", "T").slice(0, 13) + ":00";
+const FC_URL = "https://api.open-meteo.com/v1/forecast?latitude=" + SPOTS.map(s => s.lat).join(",") + "&longitude=" + SPOTS.map(s => s.lon).join(",") +
+  "&current=temperature_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m&daily=sunrise,sunset&wind_speed_unit=ms&timezone=Europe%2FCopenhagen&forecast_days=3";
+const SEA_URL = "https://marine-api.open-meteo.com/v1/marine?latitude=56.10&longitude=10.40&hourly=wave_height,sea_surface_temperature,sea_level_height_msl&timezone=Europe%2FCopenhagen&forecast_days=3";
+const CACHE = "bugtvind.cache.v2";
+const getJSON = async (url, ms = 9000) => { const c = new AbortController(), t = setTimeout(() => c.abort(), ms); try { const r = await fetch(url, { signal:c.signal }); if (!r.ok) throw new Error(r.status); return await r.json(); } finally { clearTimeout(t); } };
+
+// samler svarene til én tidslinje, der starter i den aktuelle time
+function normalize(fc, sea, at) {
+  const list = Array.isArray(fc) ? fc : [fc];
+  if (list.length !== SPOTS.length || !list[0]?.hourly?.time) throw new Error("uventet svar");
+  const i0 = list[0].hourly.time.indexOf(hourKey());
+  if (i0 < 0) throw new Error("prognosen dækker ikke nu");
+  const T = Math.min(48, list[0].hourly.time.length - i0), times = list[0].hourly.time.slice(i0, i0 + T), spots = {};
+  list.forEach((r, n) => {
+    const h = r.hourly, cut = k => (h[k] || []).slice(i0, i0 + T);
+    const o = { ws:cut("wind_speed_10m"), wd:cut("wind_direction_10m"), wg:cut("wind_gusts_10m"), ta:cut("temperature_2m"), wc:cut("weather_code") };
+    const c = r.current;
+    if (c && c.wind_speed_10m != null) { o.ws[0] = c.wind_speed_10m; o.wd[0] = c.wind_direction_10m; o.wg[0] = c.wind_gusts_10m; o.ta[0] = c.temperature_2m; o.wc[0] = c.weather_code; }
+    spots[SPOTS[n].id] = o;
+  });
+  const m = { wave:[], sst:[], sl:[] };
+  if (sea?.hourly?.time) { const j0 = sea.hourly.time.indexOf(times[0]); if (j0 >= 0) { m.wave = (sea.hourly.wave_height || []).slice(j0, j0 + T); m.sst = (sea.hourly.sea_surface_temperature || []).slice(j0, j0 + T); m.sl = (sea.hourly.sea_level_height_msl || []).slice(j0, j0 + T); } }
+  const sun = {}; (list[0].daily?.time || []).forEach((d, i) => sun[d] = list[0].daily.sunset[i].slice(11, 16));
+  return { at, times, spots, sea:m, sun };
+}
+// prognose pakket ind i siden, da den blev lavet; bruges når siden ikke selv kan hente vejr
+const SNAP = {"start":"2026-10-08T00:00","spots":["egadgadgabg9ag86k82p41t13v26t57v68v6ixegxefwcgvdgvehvdcudasabr9dsadsbcsadsacsact9ctactabt9as89s8as8as8ar88r86r76m59j6ai8fhbhidiidhjdckc8n89o68o78o6am7ap89q8br89q88o7bn89o8cn9cn99m9cm9bl97m8al8elbbmban99n98n87n78n88n7","dgabgabh9ah88h76k72q42v23u26t47v68v7ixegxefwcgvdhvdhvdcudas9ar8cs9dsacsadsabsabt9ct9ct9bt9as88s79s89s89r78r76r75m58j6ai8ehbhidiidhjeckd8n98o67o68o6an7aq88q7ar89q87o6an88o8bn8cn99m9cmabla5q9al8flbbmban88n78n77m78n78n7","df9ag9ah89h77h66j62n42t23t25t47v68w7ixegxefxdgvchvdhvdcudas9ar8dradtadsadsacsact9ct9ct9bt9as99s8as8as8ar88r76q75m58k6ai8dhahiciidijedkd9ma8o68n68o6an79q87q7br89q87o7an88o8bn8cn9am9dmacla5p9bl8fmbbmban88n78n77m78n78n7","cfbdfadfbbfacf99h95k73m44p36s59w68u7ixdkxhjxfjwekvfkvfhvfgtdhsdjseksfjtfjtejtejteiteitehtdhtdftchsdgscescbrb9s97n78k7ai8bg9ficgidhjegkddmccnabo9ao8fnbfocerdfrbfqbcpbdnafncfndgncemcfmcemcemfemcgndenddncbobbobaoaboabob","cfbdfbdfbcfbcf99ga6j74k53p44q37w67v6ax8ixfixehweiveivegveetdfschsdjsfhtfgtdhtditegtehudgudftdetcfscftcdtcbsa9r97p88l6bi9ci9ficgidhiefjeemcbnbao99o8enbfocdsddraerbbpbdnaeobfndfncdncfmcfmcimfdmdgndfmddndbobbobaoaboabob","bgach9bha9h99h76l73n42p24r47t68v78v7ixfhxfgwehvefvegvdeudasbbr9dsbescesdescdsccsbdsbdtbcsbbsaar9bsaar99r97q85o76k57i6ah8chadibgidfjdbkc8n99o89o87n78m79p87r88q78p77n69n8an99n89m99l8amabm9blcalaalaamb9n99n98n88n78n88n8","cgadhachaah99h85l72n42r24q36t59v79u7ixeixfgwehwefvegvdeud9sbar8dsaesbescetbdtbcsadsadtacsabs9as9bs99s99r77q75o66k57j6bi8eibfibhidfjdblc7n89p79o77n78m69p77r78q67p67n69n89n89n89m8al8amadlaclcalaclabma9n98n88n78n78n78n7","dgadgacfbcf99g94l72m32s13l25t47u68u6ixfhxffwdgwegvdgvddvd8sa9q7br9cradsbdsbcsabsacsacsabs9bs8as8bs98r99r76q75m56k56k5bi8ficfjchidekdblb8n98o79o76l79m78o77r77p67p67m59n88m7am89m89l8bmaelbdmccmablbama9n98o88n78n78n78n8"],"temp":"ppppppooooonlkkkllkkjkkjjjjjjjiiijklmmmmmmmmmmnmmmmllkkkkklmnnoonmlkjjii","wc":"030303030303031f1f1f1f1j1p1j1f0303030201010101010000000000000000010203020303031f1h1p1r1h1h030303010203030000010300000102031f1h031f02030002020301","wave":"aaaa998766668accdecba99889999aaaa886777acfeedcbaa98877777888abcccccbaaaa","sl":"eca99bdfhhgeb9879behkllifedddfhknppnljihgghiiiihfc9877adgjllkigedddfhjkj","sst":[15.2,14.9,14.9],"sun":{"2026-10-08":["07:35","18:35"],"2026-10-09":["07:37","18:33"],"2026-10-10":["07:39","18:30"]},"fetched":"2026-10-08T10:30"};
+function fromSnap() {
+  const t0 = Date.parse(SNAP.start + ":00+02:00"), all = [];
+  for (let i = 0; i < SNAP.temp.length; i++) all.push(hourKey(new Date(t0 + i * 36e5)));
+  const i0 = all.indexOf(hourKey()); if (i0 < 0) return null;
+  const T = Math.min(48, all.length - i0), v = (s, i) => parseInt(s[i], 36), spots = {};
+  SPOTS.forEach((sp, n) => { const s = SNAP.spots[n], o = { ws:[], wd:[], wg:[], ta:[], wc:[] };
+    for (let i = i0; i < i0 + T; i++) { o.ws.push(v(s, i * 3) / 2); o.wd.push(v(s, i * 3 + 1) * 10); o.wg.push(Math.max(v(s, i * 3 + 2), v(s, i * 3) / 2)); o.ta.push(v(SNAP.temp, i) - 10); o.wc.push(parseInt(SNAP.wc.slice(i * 2, i * 2 + 2), 36)); }
+    spots[sp.id] = o; });
+  const sea = { wave:[], sst:[], sl:[] };
+  for (let i = i0; i < i0 + T; i++) { sea.wave.push(SNAP.wave[i] === "z" ? null : v(SNAP.wave, i) / 20); sea.sl.push(SNAP.sl[i] === "z" ? null : (v(SNAP.sl, i) - 18) / 25); sea.sst.push(SNAP.sst[Math.floor(i / 24)] ?? null); }
+  const sun = {}; for (const d in SNAP.sun) sun[d] = SNAP.sun[d][1];
+  return { at:Date.parse(SNAP.fetched + ":00+02:00"), times:all.slice(i0, i0 + T), spots, sea, sun };
+}
+const empty = () => { const o = {}; SPOTS.forEach(s => o[s.id] = { ws:[null], wd:[null], wg:[null], ta:[null], wc:[null] }); return { at:Date.now(), times:[hourKey()], spots:o, sea:{ wave:[], sst:[], sl:[] }, sun:{} }; };
+
+const S = { data:null, mode:"load", t:0, sel:"akrogen", open:true };
+
+async function load() {
+  $("#feedtxt").textContent = "Henter vejr…";
+  try {
+    const [fc, sea] = await Promise.all([getJSON(FC_URL), getJSON(SEA_URL).catch(() => null)]);
+    S.data = normalize(fc, sea, Date.now()); S.mode = "live";
+    try { localStorage.setItem(CACHE, JSON.stringify({ at:S.data.at, fc, sea })); } catch {}
+  } catch (e) {
+    let d = null, mode = "none";
+    try { const c = JSON.parse(localStorage.getItem(CACHE)); if (c && Date.now() - c.at < 6 * 36e5) { d = normalize(c.fc, c.sea, c.at); mode = "cache"; } } catch {}
+    if (!d) { d = fromSnap(); if (d) mode = "snap"; }
+    S.data = d || empty(); S.mode = mode;
+  }
+  S.t = Math.min(S.t, S.data.times.length - 1);
+  render();
+}
+
+/* ---------- visning ---------- */
+const wx = (id, t) => { const o = S.data?.spots[id]; return o ? { ws:o.ws[t], wd:o.wd[t], wg:o.wg[t], ta:o.ta[t], wc:o.wc[t] } : null; };
+const fmt = (v, d = 0) => v == null || Number.isNaN(v) ? "–" : v.toFixed(d).replace(".", ",");
+const clock = iso => iso ? iso.slice(11, 16) : "–";
+const dayName = iso => new Intl.DateTimeFormat("da-DK", { weekday:"short", timeZone:"UTC" }).format(new Date(iso.slice(0, 10) + "T12:00Z")).replace(".", "");
+const whenText = t => t === 0 ? "Nu" : dayName(S.data.times[t]) + " " + clock(S.data.times[t]);
+const ARROW = '<path d="M8 1l5 6.2H9.6V15H6.4V7.2H3z"/>';
+
+function buildStatic() {
+  const names = $("#names");
+  NAMES.forEach(n => { const e = el("span", "place-name" + (n[3] ? " sea" : ""), n[0]); e.style.left = px(n[1]) * 100 + "%"; e.style.top = py(n[2]) * 100 + "%"; names.append(e); });
+  const mk = $("#markers");
+  SPOTS.forEach(s => {
+    const b = el("button", "spot"); b.type = "button"; b.dataset.id = s.id; b.style.left = px(s.lon) * 100 + "%"; b.style.top = py(s.lat) * 100 + "%";
+    const r = s.facing * Math.PI / 180, L = 28, kx = Math.sin(r) * L, ky = -Math.cos(r) * L;
+    const line = el("span", "line"); line.style.width = L + "px"; line.style.transform = `rotate(${s.facing - 90}deg)`;
+    const kite = el("span", "kite"); kite.style.left = kx + "px"; kite.style.top = ky + "px"; kite.append(el("b"));
+    const tag = el("span", "tag"); tag.innerHTML = `<svg viewBox="0 0 16 16">${ARROW}</svg>`; tag.append(el("span", null, s.name)); tag.style.top = (ky - 11) + "px";
+    if (kx >= 0) tag.style.left = (kx + 22) + "px"; else tag.style.right = (-kx + 22) + "px";
+    b.append(line, el("span", "dot"), kite, tag); b.addEventListener("click", () => { S.sel = s.id; S.open = true; render(); }); mk.append(b);
+  });
+}
+
+// vindfelt: vægtet snit af spottenes vind, så vandet kan farves efter den lokale retning
+function windAt(x, y, res) {
+  let sx = 0, sy = 0, sw = 0;
+  for (const r of res) { if (r.w?.ws == null) continue; const dx = x - r.X, dy = y - r.Y, k = 1 / (dx * dx + dy * dy + 400), a = (r.w.wd + 180) * Math.PI / 180; sx += Math.sin(a) * k; sy -= Math.cos(a) * k; sw += k; }
+  if (!sw) return null; const l = Math.hypot(sx, sy) || 1; return [sx / l, sy / l];
+}
+function paintShore(res) {
+  const ctx = $("#shore").getContext("2d"), img = ctx.createImageData(M, M), d = img.data, cs = getComputedStyle(document.documentElement);
+  const rgb = k => { const v = cs.getPropertyValue(k).trim().replace("#", ""); return [parseInt(v.slice(0, 2), 16), parseInt(v.slice(2, 4), 16), parseInt(v.slice(4, 6), 16)]; };
+  const cSide = rgb("--side"), cOn = rgb("--onshore"), cOff = rgb("--off"), G = 32, field = [];
+  for (let gy = 0; gy <= G; gy++) for (let gx = 0; gx <= G; gx++) field.push(windAt(gx * M / G, gy * M / G, res));
+  for (const c of COASTAL) {
+    const w = field[Math.round(c.y * G / M) * (G + 1) + Math.round(c.x * G / M)]; if (!w) continue;
+    const dot = w[0] * c.gx + w[1] * c.gy;                 // +1 = blæser lige ind mod land
+    const k = dot > .906 ? cOn : dot > -.342 ? cSide : cOff, i = c.i * 4;
+    d[i] = k[0]; d[i + 1] = k[1]; d[i + 2] = k[2]; d[i + 3] = c.a;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+function render() {
+  const D = S.data; if (!D) return;
+  const t = S.t, slider = $("#t");
+  slider.max = Math.max(1, D.times.length - 1); slider.value = t; slider.disabled = D.times.length < 2;
+  $("#when").textContent = whenText(t);
+  const at = new Date(D.at), hhmm = new Intl.DateTimeFormat("da-DK", { timeZone:TZ, hour:"2-digit", minute:"2-digit" }).format(at);
+  $("#feed").className = "feed " + S.mode;
+  $("#feedtxt").textContent = S.mode === "live" ? "Live · hentet " + hhmm : S.mode === "cache" ? "Offline · prognose fra " + hhmm : S.mode === "snap" ? "Prognose fra " + dayName(hourKey(at)) + " " + hhmm + " · ikke live her" : "Ingen aktuel prognose";
+  const res = SPOTS.map(s => ({ s, X:px(s.lon) * M, Y:py(s.lat) * M, w:wx(s.id, t), j:judge(s, wx(s.id, t)) }));
+  res.forEach(r => { const b = $(`.spot[data-id="${r.s.id}"]`); b.className = "spot " + r.j.level + (r.s.id === S.sel && S.open ? " sel" : ""); $("b", b).textContent = r.w?.ws == null ? "?" : Math.round(r.w.ws);
+    $("svg", b).style.transform = `rotate(${(r.w?.wd ?? 0) + 180}deg)`;
+    b.setAttribute("aria-label", `${r.s.name}: ${fmt(r.w?.ws)} meter i sekundet, ${r.j.kind}, ${r.j.word}`); b.setAttribute("aria-pressed", r.s.id === S.sel && S.open); });
+  let sx = 0, sy = 0, sp = 0, n = 0; res.forEach(r => { if (r.w?.ws != null) { const a = r.w.wd * Math.PI / 180; sx += Math.sin(a); sy += Math.cos(a); sp += r.w.ws; n++; } });
+  if (n) { const md = (Math.atan2(sx, sy) * 180 / Math.PI + 360) % 360; S.wind = { dir:md, sp:sp / n };
+    $("#hudspeed").textContent = fmt(sp / n) + " m/s"; $("#hudsub").textContent = "fra " + dirName(md); $("#hudarrow").style.transform = `rotate(${md + 180}deg)`; }
+  else { S.wind = null; $("#hudspeed").textContent = "–"; $("#hudsub").textContent = "ingen vinddata"; }
+  paintShore(res);
+  renderInfo(res.find(r => r.s.id === S.sel));
+}
+
+function renderInfo(r) {
+  const D = S.data, t = S.t, s = r.s, w = r.w || {}, box = $("#info"); box.textContent = ""; box.hidden = !S.open; if (!S.open) return;
+  const head = el("header"), hl = el("div"); hl.append(el("span", "label", whenText(t)), el("h2", null, s.name));
+  const x = el("button", "x", "×"); x.type = "button"; x.setAttribute("aria-label", "Luk"); x.addEventListener("click", () => { S.open = false; render(); }); head.append(hl, x);
+  const v = el("div", "verdict"); v.append(el("span", "chip " + r.j.level, r.j.word), el("strong", null, r.j.kind));
+  const wd = el("div", "wind"), ang = w.wd == null ? 0 : rel(w.wd, s.facing);
+  wd.innerHTML = `<svg viewBox="0 0 100 100" role="img" aria-label="Vindens vinkel på kysten"><rect width="100" height="62" fill="var(--sea-2)"/><path d="M0 50q25-7 50 0t50 0v14H0z" fill="var(--sea-3)"/><path d="M0 58q25-6 50 0t50 0v10H0z" fill="var(--foam)"/><path d="M0 63q25-6 50 0t50 0v37H0z" fill="var(--sand)"/><g transform="rotate(${ang} 50 50)"><path d="M46 12h8v44h9L50 76 37 56h9z" fill="var(--accent)" stroke="#fff6dc" stroke-width="2.5" stroke-linejoin="round"/></g></svg>`;
+  const wt = el("div"), big = el("div", "big num", fmt(w.ws, 1)); big.append(el("small", null, " m/s"));
+  wt.append(big, el("p", null, w.wd == null ? "Ingen vinddata" : `stød ${fmt(w.wg)} m/s · fra ${dirName(w.wd)} ${Math.round(w.wd)}°`)); wd.append(wt);
+  const tr = el("div", "trio"), stat = (lab, val) => { const d = el("div"); d.append(el("span", "label", lab), el("b", "num", val)); tr.append(d); };
+  stat("Bølger", fmt(D.sea.wave[t], 1) + " m"); stat("Vand", fmt(D.sea.sst[t]) + " °C"); stat("Luft", fmt(w.ta) + " °C");
+  const hs = el("div", "hours"), ol = el("ol"); hs.tabIndex = 0;
+  D.times.forEach((iso, i) => { const xw = wx(s.id, i), j = judge(s, xw), li = el("li"), b = el("button", "hr" + (i === t ? " cur" : "") + (i > 0 && iso.endsWith("T00:00") ? " day" : "")); b.type = "button";
+    b.title = whenText(i) + ": " + j.kind + ", " + j.word; b.setAttribute("aria-label", `${whenText(i)}: ${fmt(xw.ws)} m/s fra ${xw.wd == null ? "?" : dirName(xw.wd)}, ${j.word}`);
+    b.innerHTML = `<span class="t num">${iso.endsWith("T00:00") ? dayName(iso) : iso.slice(11, 13)}</span><svg class="a" viewBox="0 0 16 16" style="transform:rotate(${(xw.wd ?? 0) + 180}deg)">${ARROW}</svg><span class="s num">${fmt(xw.ws)}</span><span class="g num">${fmt(xw.wg)}</span><span class="bar ${j.level}"></span>`;
+    b.addEventListener("click", () => { S.t = i; render(); }); li.append(b); ol.append(li); });
+  hs.append(ol);
+  box.append(head, v, wd, tr, hs);
+  const cur = $(".hr.cur", hs); if (cur) hs.scrollLeft = Math.max(0, cur.offsetLeft - 68);
+}
+
+/* ---------- vinden som tråde over vandet ---------- */
+const wctx = $("#wind").getContext("2d"), still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const parts = Array.from({ length:54 }, () => ({ x:Math.random() * M, y:Math.random() * M, life:Math.random() * 120 }));
+let tk = 0;
+function tick() {
+  tk++;
+  wctx.globalCompositeOperation = "destination-out"; wctx.fillStyle = "rgba(0,0,0,.045)"; wctx.fillRect(0, 0, M, M);
+  wctx.globalCompositeOperation = "source-over"; wctx.lineCap = "round";
+  const wd = S.wind;
+  if (wd) {
+    const thread = getComputedStyle(document.documentElement).getPropertyValue("--thread").trim() || "#fff4d2";
+    const base = (wd.dir + 180) * Math.PI / 180, v = Math.min(4.2, .5 + wd.sp * .22);
+    for (const p of parts) {
+      const a = base + (fbm(p.x / 120 + tk * .002, p.y / 120) - .5) * 1.5, nx = p.x + Math.sin(a) * v, ny = p.y - Math.cos(a) * v; p.life--;
+      if (p.life < 0 || nx < 0 || ny < 0 || nx >= M || ny >= M) { p.x = Math.random() * M; p.y = Math.random() * M; p.life = 80 + Math.random() * 140; continue; }
+      if (!land[Math.floor(ny) * M + Math.floor(nx)]) { wctx.strokeStyle = thread; wctx.globalAlpha = .55; wctx.lineWidth = 1.7; wctx.beginPath(); wctx.moveTo(p.x, p.y); wctx.lineTo(nx, ny); wctx.stroke(); wctx.globalAlpha = 1; }
+      p.x = nx; p.y = ny;
+    }
+  }
+  if (!still) requestAnimationFrame(tick);
+}
+
+/* ---------- start ---------- */
+const repaint = () => { paint(); render(); };
+buildStatic(); paint();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", repaint);
+new MutationObserver(repaint).observe(document.documentElement, { attributes:true, attributeFilter:["data-theme"] });
+$("#t").addEventListener("input", e => { S.t = +e.target.value; render(); });
+$("#now").addEventListener("click", () => { S.t = 0; render(); });
+$("#feed").addEventListener("click", load);
+load().then(() => { if (still) { for (let i = 0; i < 60; i++) tick(); } else tick(); });
+setInterval(() => { if (!document.hidden) load(); }, 15 * 60 * 1000);
+})();
+</script>
+
+</body>
+</html>
