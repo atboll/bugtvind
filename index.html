@@ -209,14 +209,19 @@ const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) 
 /* ---------- spots og steder ---------- */
 // facing = kompasretning fra stranden og ud over vandet
 const SPOTS = [
-  { id:"akrogen", name:"Åkrogen", lat:56.2052, lon:10.2838, facing:115 },
-  { id:"skaering", name:"Skæring Strand", lat:56.2290, lon:10.3200, facing:135 },
-  { id:"studstrup", name:"Studstrup", lat:56.2480, lon:10.3440, facing:125 },
-  { id:"begtrup", name:"Begtrup Vig", lat:56.1570, lon:10.5130, facing:235 },
-  { id:"ahl", name:"Ahl Strand", lat:56.1800, lon:10.6500, facing:265 },
-  { id:"moesgaard", name:"Moesgård Strand", lat:56.0890, lon:10.2470, facing:95 },
-  { id:"ajstrup", name:"Ajstrup Strand", lat:56.0450, lon:10.2630, facing:90 },
-  { id:"saksild", name:"Saksild Strand", lat:55.9750, lon:10.2680, facing:85 },
+  { id:"akrogen", name:"Åkrogen", lat:56.2047, lon:10.2860, facing:125 },
+  { id:"skaering", name:"Skæring Strand", lat:56.2282, lon:10.3212, facing:151 },
+  { id:"studstrup", name:"Studstrup", lat:56.2451, lon:10.3464, facing:107 },
+  { id:"begtrup", name:"Begtrup Vig", lat:56.1541, lon:10.5210, facing:301 },
+  { id:"ahl", name:"Ahl Strand", lat:56.1850, lon:10.6553, facing:341, tag:"r" },
+  { id:"moesgaard", name:"Moesgård Strand", lat:56.0884, lon:10.2507, facing:74 },
+  { id:"ajstrup", name:"Ajstrup Strand", lat:56.0443, lon:10.2726, facing:84 },
+  { id:"saksild", name:"Saksild Strand", lat:55.9712, lon:10.2591, facing:73 },
+  { id:"maarup", name:"Mårup, Samsø", lat:55.9449, lon:10.5864, facing:60 },
+  { id:"saelvig", name:"Sælvig, Samsø", lat:55.8643, lon:10.5562, facing:343 },
+  { id:"oer", name:"Øer", lat:56.1503, lon:10.6754, facing:227 },
+  { id:"grenaa", name:"Grenaa Strand", lat:56.3942, lon:10.9222, facing:103, tag:"l" },
+  { id:"hou", name:"Hou", lat:55.9140, lon:10.2608, facing:112 },
 ];
 /* ---------- kort ---------- */
 const BOX = { l:10.03, r:10.97, b:55.755, t:56.45 };
@@ -342,7 +347,7 @@ const hourKey = (d = new Date()) => new Intl.DateTimeFormat("sv-SE", { timeZone:
 const FC_URL = "https://api.open-meteo.com/v1/forecast?latitude=" + SPOTS.map(s => s.lat).join(",") + "&longitude=" + SPOTS.map(s => s.lon).join(",") +
   "&current=temperature_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m&daily=sunrise,sunset&wind_speed_unit=ms&timezone=Europe%2FCopenhagen&forecast_days=3";
 const SEA_URL = "https://marine-api.open-meteo.com/v1/marine?latitude=56.10&longitude=10.40&hourly=wave_height,sea_surface_temperature,sea_level_height_msl&timezone=Europe%2FCopenhagen&forecast_days=3";
-const CACHE = "bugtvind.cache.v2";
+const CACHE = "bugtvind.cache.v3";
 const getJSON = async (url, ms = 9000) => { const c = new AbortController(), t = setTimeout(() => c.abort(), ms); try { const r = await fetch(url, { signal:c.signal }); if (!r.ok) throw new Error(r.status); return await r.json(); } finally { clearTimeout(t); } };
 
 // samler svarene til én tidslinje, der starter i den aktuelle time
@@ -365,7 +370,7 @@ function normalize(fc, sea, at) {
   return { at, times, spots, sea:m, sun };
 }
 // prognose pakket ind i siden, da den blev lavet; bruges når siden ikke selv kan hente vejr
-const SNAP = {"start":"2026-10-08T00:00","spots":["egadgadgabg9ag86k82p41t13v26t57v68v6ixegxefwcgvdgvehvdcudasabr9dsadsbcsadsacsact9ctactabt9as89s8as8as8ar88r86r76m59j6ai8fhbhidiidhjdckc8n89o68o78o6am7ap89q8br89q88o7bn89o8cn9cn99m9cm9bl97m8al8elbbmban99n98n87n78n88n7","dgabgabh9ah88h76k72q42v23u26t47v68v7ixegxefwcgvdhvdhvdcudas9ar8cs9dsacsadsabsabt9ct9ct9bt9as88s79s89s89r78r76r75m58j6ai8ehbhidiidhjeckd8n98o67o68o6an7aq88q7ar89q87o6an88o8bn8cn99m9cmabla5q9al8flbbmban88n78n77m78n78n7","df9ag9ah89h77h66j62n42t23t25t47v68w7ixegxefxdgvchvdhvdcudas9ar8dradtadsadsacsact9ct9ct9bt9as99s8as8as8ar88r76q75m58k6ai8dhahiciidijedkd9ma8o68n68o6an79q87q7br89q87o7an88o8bn8cn9am9dmacla5p9bl8fmbbmban88n78n77m78n78n7","cfbdfadfbbfacf99h95k73m44p36s59w68u7ixdkxhjxfjwekvfkvfhvfgtdhsdjseksfjtfjtejtejteiteitehtdhtdftchsdgscescbrb9s97n78k7ai8bg9ficgidhjegkddmccnabo9ao8fnbfocerdfrbfqbcpbdnafncfndgncemcfmcemcemfemcgndenddncbobbobaoaboabob","cfbdfbdfbcfbcf99ga6j74k53p44q37w67v6ax8ixfixehweiveivegveetdfschsdjsfhtfgtdhtditegtehudgudftdetcfscftcdtcbsa9r97p88l6bi9ci9ficgidhiefjeemcbnbao99o8enbfocdsddraerbbpbdnaeobfndfncdncfmcfmcimfdmdgndfmddndbobbobaoaboabob","bgach9bha9h99h76l73n42p24r47t68v78v7ixfhxfgwehvefvegvdeudasbbr9dsbescesdescdsccsbdsbdtbcsbbsaar9bsaar99r97q85o76k57i6ah8chadibgidfjdbkc8n99o89o87n78m79p87r88q78p77n69n8an99n89m99l8amabm9blcalaalaamb9n99n98n88n78n88n8","cgadhachaah99h85l72n42r24q36t59v79u7ixeixfgwehwefvegvdeud9sbar8dsaesbescetbdtbcsadsadtacsabs9as9bs99s99r77q75o66k57j6bi8eibfibhidfjdblc7n89p79o77n78m69p77r78q67p67n69n89n89n89m8al8amadlaclcalaclabma9n98n88n78n78n78n7","dgadgacfbcf99g94l72m32s13l25t47u68u6ixfhxffwdgwegvdgvddvd8sa9q7br9cradsbdsbcsabsacsacsabs9bs8as8bs98r99r76q75m56k56k5bi8ficfjchidekdblb8n98o79o76l79m78o77r77p67p67m59n88m7am89m89l8bmaelbdmccmablbama9n98o88n78n78n78n8"],"temp":"ppppppooooonlkkkllkkjkkjjjjjjjiiijklmmmmmmmmmmnmmmmllkkkkklmnnoonmlkjjii","wc":"030303030303031f1f1f1f1j1p1j1f0303030201010101010000000000000000010203020303031f1h1p1r1h1h030303010203030000010300000102031f1h031f02030002020301","wave":"aaaa998766668accdecba99889999aaaa886777acfeedcbaa98877777888abcccccbaaaa","sl":"eca99bdfhhgeb9879behkllifedddfhknppnljihgghiiiihfc9877adgjllkigedddfhjkj","sst":[15.2,14.9,14.9],"sun":{"2026-10-08":["07:35","18:35"],"2026-10-09":["07:37","18:33"],"2026-10-10":["07:39","18:30"]},"fetched":"2026-10-08T10:30"};
+const SNAP = {"start":"2026-10-08T00:00","spots":["egadgadgabg9ag86k82p41t13v26t57v67w6jyfgxfewcgvdgvdgvddtdbsabr9eradsbcsadsadsactacsactabs9as8bs8as8as8as88s87q76n67j5bi8ehafjbiidiiefjd9kb7n75p58p68p7ao8ao7csccra9qa8o7bn8bo9cna9n9cmaaoaan9al8alb9m89o7an87n89n88n7an8","dgabgabh9ah88h76k72q42v23u26t47v67w6iyegxeewcgvdgvdgvdctcbs9ar8dradsbcsacs9csact9cs9ct9as9as8ar7as89s79r78s87q76o66j5bi8ehafjbiidiiefjeakb7m84o56p58p69o79o7bsbbr99q97o6ao8bo8cna9n9cm98paan9al8blb9m88o7an87m89n88n79n8","df9ag9ah89h77h66j62n42t23t25t47v67x6iyegxeexcgvcgvdgvdctdbs9br8dradsbcsadsadsactacs9ctabt9as8ar8as8as89s88s87q76o66j5bi8dh9fjbiidiiegidbjc8m84n66o58p69o79o7btbbr99q87o79n7ao8cna9n9bm98oabn9al9dlbam98o7an87m8an88n79n7","cfbegaegbcfadf99h95k63m43p36r48v68u69w7ixghwdivdjvejveguegtchsdjreiteitdjtejtehteitdjtehteftcfsbgscftcdtbbsaar87q86l6ai7bh8fjbgicghcficckcbl95o98o69n7doaeobftehscfrccpbfocgocgodencfmbgmccmebobcobcm9cl9dmaeoaeoaboaenb","cfbdfadfbcfacf99g96j74k53p34q37w67w79x7hxegwdgwdhvdivegueftcgscisdfudfubftbitdhtdhtditdhudgtdetcesbetbdtbbsaar98q86m6aj8ah8eibgicgidgiecjdak98p88o69n7co9dobfuefsbfrbcqbfobgodhodendfncgmdflefobeocbmafkbdmceoaenbcobenb","bgach9bha9h99h76l73n42p24r47t68v78u7ixfgxffwdgvefvefvddudbsbbr9dsbescescescescdscdsbdtccsbbsacsabsaasa9r98r85p75m57j6ah8bh9cjaficgidejdakb9n86o8ap88o8ao8ap9bsabsb8p98n7an9ao9am9an9bladnb9ncam98o97m8an97ma6m68m78m69m7","dgaegaegbcgaag96k73m42q24n36t59v79v7ixejxghwdhvegvdgvcducbsaar8drafsbfsbfscfscetbesbetbcsacs9csacsabs99r89q85p76l58j6ci9eibgjciidiiegjdbkc9n86n79p77n7ao8bp9csaasa8p79n7an8ao8am9bm9cl9fmcdlccmbbo99l9al88m97l69m79m7am7","dgadgacfbcf99g94l72m32s13l25t47u68v6dvahxggwdgvdfvdevccuc8sa9q7br9craesbesbdsbdsbdsabsaas9bs8bs9as98r88r78q75o66l57j5bh9cjafkcgidgiddjc9ka9o76n77p66n6ao8dpacsa7q97p69n79n89n8am9bm9clabmbbm9cma7pa7m78m66m78l67m69m78m7","egbdfbcfabe9af88h86j64k55o46r49v76w9av8myjkxhkwgivgiufhufgtegsdirejsfksgksglthjtgjtfjtfitfhtfisehseftdcscbra8r97o78k7ai8diafjcficfhceicckbdna9qc9p99o8eobhpegsfhsecqdcpagoegpehoffndgmdhmdinhhmedodcnb2rfcneeobfoceocgnd","dfbcfabf9ae99f78g76h64k55n47r5bv86x9cv9qyjnwhmwglugluhkufitejsemsfmsgoshoshoshmthmtgltgltflsfltfktfhseescdrb9ra8o79k7ai8fjbgjcficgicfjcdkcgncaocap9bo9fobjpejsghsegrceqcioejpehnefndgmcimdimghndgldjkfklfdmfeocgochochmd","efbgfbffcefbdeaaha8j76k64o45q48v67w8ax7ixeiwdhwdjvekvfhufhtdisdlsfhtfhudhtcktfitejtektejteitehtdhschtcetcdsabr98q87m6cj8dh9gjbiidjidjieejdcla9p99o7bo8do9eobgteischrdeqchociodiodgndhncimdflegocgocenbikdfmcfobfobdobfnb","ffdegcegbdgbdgbbha7j95k52l42o26s57v6eycgxdfwcfwcevdfvddudbsbar99r9bs99s98r7as8bs9bs9br9bsabs99s99s89r89r88s87s76q76o65k68i7ah8ciaficgidfidbjc7k96l65m56m58o7br9br99q99p87o79n79o8bn9amacna8ma9n89m86p88l7bl98n97m77n67n6","fgbffbefbdeabf96k83l42q23o26s46u67v6bv9ixghwdhvdfvdfvcduc8sa9q7br9craerbesbesbdsadsacsabs9bs9cs99s98r79r78p75o67m69k7ehagjcjkeiieiieejdclbbo97o87p76n6bp9fpbcsb8q98q6ao7cn9cn9cnacm9flb9nbdnbfmb6ob6q7ema8ma9n79n8cn9cn9"],"temp":"ppppppoooonmllllllkkkkkjjjjjjiiiijklmmmmmmmmmmnnnnnmmlkkkklmonnnnnmmllkk","wc":"030303030303031f1f1f1f1j1f1h1f030303010001010100000000000000000000010101030303031h1h1r1r1f1f1f03030302021h00000200020101021h1h031h02030303030301","wave":"cccba987666579abcdca988888888888866444479bcdeedcccbbaa99899abcddccbaaaaa","sl":"db989adfhiheba999behkmljhggghikmpqrpnlkjihijjkkifda99acfikmnljigfeegiklk","sst":[15.3,14.9,14.7],"sun":{"2026-10-08":["07:35","18:35"],"2026-10-09":["07:37","18:33"],"2026-10-10":["07:39","18:30"]},"fetched":"2026-10-08T16:35"};
 function fromSnap() {
   const t0 = Date.parse(SNAP.start + ":00+02:00"), all = [];
   for (let i = 0; i < SNAP.temp.length; i++) all.push(hourKey(new Date(t0 + i * 36e5)));
@@ -417,7 +422,7 @@ function buildStatic() {
     const line = el("span", "line"); line.style.width = L + "px"; line.style.transform = `rotate(${s.facing - 90}deg)`;
     const kite = el("span", "kite"); kite.style.left = kx + "px"; kite.style.top = ky + "px"; kite.append(el("b"));
     const tag = el("span", "tag"); tag.innerHTML = `<svg viewBox="0 0 16 16">${ARROW}</svg>`; tag.append(el("span", null, s.name)); tag.style.top = (ky - 11) + "px";
-    if (kx >= 0) tag.style.left = (kx + 22) + "px"; else tag.style.right = (-kx + 22) + "px";
+    if (s.tag ? s.tag === "r" : kx >= 0) tag.style.left = (kx + 22) + "px"; else tag.style.right = (-kx + 22) + "px";
     b.append(line, el("span", "dot"), kite, tag); b.addEventListener("click", () => { S.sel = s.id; S.open = true; render(); }); mk.append(b);
   });
 }
