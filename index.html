@@ -7,66 +7,73 @@
 </head>
 <body>
 <title>Bugtvind</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Marcellus+SC&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap">
 <style>
 /* Layout: et malet kort som scene til venstre, spotlisten som følge til højre; detaljer og steder nedenunder. Vinden tegnes som lysende tråde. */
 :root{
-  --sky-a:#fbe3c4; --sky-b:#cfe9e4; --panel:#fffaf0; --panel2:#f6ecd9; --ink:#2a1f47; --muted:#6a5f82; --rule:#d9b876;
-  --gold:#c98a1e; --accent:#d8436b; --accent-ink:#ffffff; --teal:#1c8a90;
-  --go:#17946a; --warn:#d98f0a; --stop:#cf3349; --on-status:#ffffff; --on-warn:#2a1a00;
-  --sea-1:#1d4f7c; --sea-2:#1f7f9c; --sea-3:#35b0b3; --sea-4:#8fdccb; --foam:#fdf3d6;
-  --on:#3aa76d; --side:#3aa76d; --off:#e0364f; --onshore:#f0b429;
-  --sand:#f3cf8a; --sand-2:#e4b06a; --land-hi:#c6d47a; --land:#9cc468; --land-sh:#6aa680;
-  --autumn-hi:#f3c878; --autumn:#eaa25e; --wood:#3f7c68; --town:#d9a79a; --town-2:#b98398; --thread:#fff4d2;
-  --font-display:"Marcellus","Iowan Old Style","Palatino Linotype",Georgia,serif;
-  --font-caps:"Marcellus SC","Marcellus",Georgia,serif;
-  --font-body:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --lift:0 10px 30px -14px rgba(42,31,71,.45);
+  --sky-a:#f3ead6; --sky-b:#dde7da; --panel:#fbf7ee; --panel2:#f1ebdc; --ink:#2f3a35; --muted:#6c776f; --rule:#d8cfba;
+  --gold:#c9963f; --accent:#25667a; --accent-ink:#ffffff; --teal:#3b8d95;
+  --go:#2f9463; --warn:#dc9a12; --stop:#cf4034; --on-status:#ffffff; --on-warn:#2a1a00;
+  --side:#2f9463; --onshore:#e8ad1c; --off:#d2413f;
+  --sea-1:#4391a6; --sea-2:#5ba8b6; --sea-3:#7dc0c4; --sea-4:#a8d8d1; --foam:#f7f1da;
+  --sand:#f1e2b4; --field-1:#dde2a2; --field-2:#c9d98e; --field-3:#ead99c; --forest:#86b477; --forest-2:#689d68;
+  --town:#eed3b4; --town-2:#d8a583; --lake:#8fcdd5; --road:#fffaf0; --road-case:#b99a6c; --thread:#ffffff; --haze:255,236,200;
+  --font-display:"Jost","Futura","Century Gothic",system-ui,sans-serif;
+  --font-caps:"Jost","Futura","Century Gothic",system-ui,sans-serif;
+  --font-body:"Jost","Futura","Century Gothic",system-ui,sans-serif;
+  --lift:0 14px 34px -18px rgba(40,50,45,.5);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --sky-a:#1d1440; --sky-b:#0f2c3c; --panel:#251b49; --panel2:#2f2459; --ink:#f7ecdc; --muted:#b9add2; --rule:#8a6a34;
-  --gold:#f2bf5e; --accent:#ff7f96; --accent-ink:#3a0a18; --teal:#58cfd0;
-  --go:#45d19a; --warn:#ffc552; --stop:#ff6f82; --on-status:#0c1a14; --on-warn:#2a1a00;
-  --sea-1:#141a4a; --sea-2:#1c3a6e; --sea-3:#22688a; --sea-4:#3f9fa3; --foam:#f6c98c;
-  --sand:#c98a5a; --sand-2:#a8654f; --land-hi:#6f9160; --land:#4f7b5c; --land-sh:#365a62;
-  --autumn-hi:#b98a58; --autumn:#9a6452; --wood:#27504f; --town:#8a5f84; --town-2:#6a4a78; --thread:#ffe7b0;
-  --lift:0 12px 34px -14px rgba(0,0,0,.7);
+  --sky-a:#1c2430; --sky-b:#15212a; --panel:#222d38; --panel2:#2b3742; --ink:#eef0e6; --muted:#a3b0ad; --rule:#44525c;
+  --gold:#e3b565; --accent:#7fc4d6; --accent-ink:#0f2530; --teal:#6cc0c4;
+  --go:#4fc98f; --warn:#f3bf4c; --stop:#f07a6a; --on-status:#0c1a14; --on-warn:#2a1a00;
+  --side:#4fc98f; --onshore:#f3bf4c; --off:#f0655f;
+  --sea-1:#15364a; --sea-2:#1d485e; --sea-3:#285f73; --sea-4:#3a7a86; --foam:#cdbd93;
+  --sand:#a9966c; --field-1:#607b56; --field-2:#536f51; --field-3:#747850; --forest:#365f4a; --forest-2:#2a4e41;
+  --town:#86695f; --town-2:#b08a72; --lake:#3a7f90; --road:#e0cfa3; --road-case:#2c3330; --thread:#e8f4f0; --haze:120,150,190;
+  --lift:0 14px 34px -16px rgba(0,0,0,.7);
   color-scheme:dark } }
 :root[data-theme="dark"]{
-  --sky-a:#1d1440; --sky-b:#0f2c3c; --panel:#251b49; --panel2:#2f2459; --ink:#f7ecdc; --muted:#b9add2; --rule:#8a6a34;
-  --gold:#f2bf5e; --accent:#ff7f96; --accent-ink:#3a0a18; --teal:#58cfd0;
-  --go:#45d19a; --warn:#ffc552; --stop:#ff6f82; --on-status:#0c1a14; --on-warn:#2a1a00;
-  --sea-1:#141a4a; --sea-2:#1c3a6e; --sea-3:#22688a; --sea-4:#3f9fa3; --foam:#f6c98c;
-  --sand:#c98a5a; --sand-2:#a8654f; --land-hi:#6f9160; --land:#4f7b5c; --land-sh:#365a62;
-  --autumn-hi:#b98a58; --autumn:#9a6452; --wood:#27504f; --town:#8a5f84; --town-2:#6a4a78; --thread:#ffe7b0;
-  --lift:0 12px 34px -14px rgba(0,0,0,.7);
+  --sky-a:#1c2430; --sky-b:#15212a; --panel:#222d38; --panel2:#2b3742; --ink:#eef0e6; --muted:#a3b0ad; --rule:#44525c;
+  --gold:#e3b565; --accent:#7fc4d6; --accent-ink:#0f2530; --teal:#6cc0c4;
+  --go:#4fc98f; --warn:#f3bf4c; --stop:#f07a6a; --on-status:#0c1a14; --on-warn:#2a1a00;
+  --side:#4fc98f; --onshore:#f3bf4c; --off:#f0655f;
+  --sea-1:#15364a; --sea-2:#1d485e; --sea-3:#285f73; --sea-4:#3a7a86; --foam:#cdbd93;
+  --sand:#a9966c; --field-1:#607b56; --field-2:#536f51; --field-3:#747850; --forest:#365f4a; --forest-2:#2a4e41;
+  --town:#86695f; --town-2:#b08a72; --lake:#3a7f90; --road:#e0cfa3; --road-case:#2c3330; --thread:#e8f4f0; --haze:120,150,190;
+  --lift:0 14px 34px -16px rgba(0,0,0,.7);
   color-scheme:dark }
 
 *{box-sizing:border-box}
 body{background:var(--sky-b) linear-gradient(165deg,var(--sky-a),var(--sky-b) 70%) fixed;color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5;min-height:100%}
 .wrap{max-width:1160px;margin:0 auto;padding-inline:16px;padding-block:16px 24px;display:flex;flex-direction:column;gap:14px}
-h1,h2,h3{font-family:var(--font-display);font-weight:400;margin:0;line-height:1.1;text-wrap:balance}
+h1,h2,h3{font-family:var(--font-display);font-weight:500;margin:0;line-height:1.1;text-wrap:balance}
 h2{font-size:28px}
 p{margin:0}
 a{color:inherit}
 button{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .num{font-variant-numeric:tabular-nums}
-.label{font-family:var(--font-caps);font-size:13px;letter-spacing:.09em;color:var(--muted)}
+.label{font-family:var(--font-caps);font-size:11px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
 
 /* ramme */
-.frame{position:relative;width:min(100%,calc((100dvh - 130px) * .756));min-width:min(100%,340px);margin-inline:auto;border-radius:22px;border:1px solid var(--rule);box-shadow:var(--lift),0 0 0 5px color-mix(in srgb,var(--panel) 70%,transparent);background:var(--panel);overflow:hidden}
+.frame{position:relative;width:min(100%,calc((100dvh - 130px) * .756));min-width:min(100%,340px);margin-inline:auto;border-radius:18px;border:1px solid var(--rule);box-shadow:var(--lift);background:var(--panel);overflow:hidden}
 .map{position:relative;aspect-ratio:560/741;background:var(--sea-2);overflow:hidden}
 .map canvas{position:absolute;inset:0;width:100%;height:100%}
-.map::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 70px rgba(30,16,60,.35)}
-.map #wind{pointer-events:none;mix-blend-mode:screen}
+.map::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(var(--haze),.28),rgba(var(--haze),0) 42%)}
+.map #wind{pointer-events:none}
 .map #shore{pointer-events:none}
 .layer{position:absolute;inset:0}
 .glass{background:color-mix(in srgb,var(--panel) 90%,transparent);border:1px solid var(--rule);border-radius:14px}
-.place-name{position:absolute;transform:translate(-50%,-50%);font-family:var(--font-caps);font-size:13px;letter-spacing:.16em;color:#2a1f47;text-shadow:0 0 6px rgba(255,246,220,.9),0 0 2px rgba(255,246,220,.9);pointer-events:none;white-space:nowrap}
-.place-name.sea{color:#fff6dc;text-shadow:0 1px 6px rgba(15,20,60,.7);font-size:15px;letter-spacing:.22em;opacity:.85}
+.place-name{position:absolute;transform:translate(-50%,-50%);font-family:var(--font-caps);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#2f3a35;text-shadow:0 0 4px rgba(255,250,235,.95),0 0 2px rgba(255,250,235,.95);pointer-events:none;white-space:nowrap}
+.place-name.town{transform:translate(-50%,-150%)}
+.place-name.e{transform:translate(9px,-50%)}
+.place-name.w{transform:translate(calc(-100% - 9px),-50%)}
+.place-name.big{font-size:14px;font-weight:600}
+.place-name.area{font-weight:400;letter-spacing:.3em;opacity:.75}
+.place-name.sea{color:#fff;text-shadow:0 1px 5px rgba(20,60,80,.55);font-weight:400;font-size:12px;letter-spacing:.34em;opacity:.9}
 .hud{position:absolute;left:12px;top:12px;padding:8px 14px 9px 12px;z-index:4;display:flex;flex-direction:column;gap:3px;max-width:calc(100% - 80px)}
-.hud h1{font-size:24px;letter-spacing:.01em}
+.hud h1{font-size:23px;font-weight:600;letter-spacing:.02em;text-transform:lowercase}
 .hud .now{display:flex;align-items:center;gap:8px}
 .hud .big{font-family:var(--font-display);font-size:26px;line-height:1}
 .hud small{color:var(--muted);font-size:12px;line-height:1.3}
@@ -84,19 +91,19 @@ button{font:inherit;color:inherit}
 .key span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .key i{width:16px;height:6px;border-radius:3px;display:inline-block}
 .key .feed i{width:8px;height:8px;border-radius:50%}
-.credit{position:absolute;right:12px;bottom:8px;font-size:10px;color:#fff6dc;opacity:.85;text-shadow:0 1px 3px rgba(15,20,60,.9);z-index:2;text-align:right}
+.credit{position:absolute;right:12px;bottom:8px;font-size:10px;color:#fff;opacity:.85;text-shadow:0 1px 3px rgba(15,20,60,.9);z-index:2;text-align:right}
 
 .spot{position:absolute;width:0;height:0;border:0;padding:0;background:none;cursor:pointer;--c:var(--muted);--on:var(--on-status)}
 .spot.go{--c:var(--go)} .spot.warn{--c:var(--warn);--on:var(--on-warn)} .spot.stop{--c:var(--stop)}
-.spot .line{position:absolute;left:0;top:-1px;height:2px;background:linear-gradient(90deg,#fff6dc,var(--c));transform-origin:0 50%;border-radius:2px}
-.spot .dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:#fff6dc;box-shadow:0 0 0 1.5px #2a1f47}
-.spot .kite{position:absolute;width:26px;height:26px;margin:-13px;transform:rotate(45deg);border-radius:7px 2px 7px 2px;border:2px solid #fff6dc;background:var(--c);box-shadow:0 0 0 1.5px #2a1f47,0 0 16px 2px var(--c);display:grid;place-items:center}
+.spot .line{position:absolute;left:0;top:-1px;height:2px;background:#fffaf0;transform-origin:0 50%;border-radius:2px}
+.spot .dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:#fffaf0;box-shadow:0 0 0 1.5px #2f3a35}
+.spot .kite{position:absolute;width:26px;height:26px;margin:-13px;transform:rotate(45deg);border-radius:5px;border:2px solid #fffaf0;background:var(--c);box-shadow:0 0 0 1px rgba(40,50,45,.55),0 3px 0 rgba(40,50,45,.25);display:grid;place-items:center}
 .spot .kite b{transform:rotate(-45deg);font-family:var(--font-body);font-weight:700;font-size:13px;line-height:1;color:var(--on);font-variant-numeric:tabular-nums}
-.spot .tag{position:absolute;white-space:nowrap;font-family:var(--font-caps);font-size:13px;letter-spacing:.04em;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--rule);border-radius:99px;padding:0 9px 0 5px;line-height:1.55;display:inline-flex;align-items:center;gap:4px}
+.spot .tag{position:absolute;white-space:nowrap;font-family:var(--font-body);font-size:13px;font-weight:500;background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid var(--rule);border-radius:99px;padding:0 9px 0 5px;line-height:1.5;display:inline-flex;align-items:center;gap:4px}
 .spot .tag svg{width:13px;height:13px;transition:transform .5s}
 .spot .tag path{fill:var(--accent)}
 .spot.sel{z-index:3}
-.spot.sel .kite{width:30px;height:30px;margin:-15px;box-shadow:0 0 0 1.5px #2a1f47,0 0 0 5px color-mix(in srgb,var(--c) 45%,transparent),0 0 22px 6px var(--c)}
+.spot.sel .kite{width:30px;height:30px;margin:-15px;box-shadow:0 0 0 1px rgba(40,50,45,.55),0 0 0 5px color-mix(in srgb,var(--c) 40%,transparent),0 4px 0 rgba(40,50,45,.25)}
 .spot.sel .kite b{font-size:16px}
 .spot.sel .tag{background:var(--ink);color:var(--panel);border-color:var(--ink)}
 .spot.sel .tag path{fill:var(--panel)}
@@ -164,6 +171,7 @@ button{font:inherit;color:inherit}
   <section class="frame" aria-label="Kitevejr for Aarhus Bugt">
     <div class="map" id="map">
       <canvas id="base" width="560" height="741" aria-hidden="true"></canvas>
+      <canvas id="lines" width="1120" height="1482" aria-hidden="true"></canvas>
       <canvas id="shore" width="560" height="741" aria-hidden="true"></canvas>
       <canvas id="wind" width="560" height="741" aria-hidden="true"></canvas>
       <div class="layer" id="names" aria-hidden="true"></div>
@@ -179,7 +187,7 @@ button{font:inherit;color:inherit}
         <span><i style="background:var(--off)"></i>fralands</span></div>
         <button class="feed" id="feed" type="button" title="Hent vejret igen"><i></i><span id="feedtxt">Henter vejr…</span></button>
       </div>
-      <div class="credit">Vejr: Open-Meteo · Kyst © OpenStreetMap</div>
+      <div class="credit">Vejr: Open-Meteo · Kort © OpenStreetMap</div>
     </div>
     <div class="info" id="info" aria-live="polite"></div>
   </section>
@@ -214,9 +222,16 @@ const px = lon => (lon - BOX.l) / (BOX.r - BOX.l), py = lat => (BOX.t - lat) / (
 // kystlinje fra OpenStreetMap, forenklet til ca. 100 m og pakket som base36-deltaer
 const COAST = (["0dv12wjnhflfhzjdigk2i2j3iahwi7iji7iui4l4hljfi6iehjhvhdiuh6j9ilibisiriaj9h8i8hfhah1i0h7j6hkjfgpmtgpihihi9inhti6hxhshdj0jlj2i1hih7hniuiai3iohqj1h6icivhkhphuh9iphokak2i3mdkyjjihiqhwi5i7i5hriliahphyibi5hfifi0j5jbmwgbkdhvk5kel6jlivh2ifgzi3gyhphqhlh3idhuhnhgi2gxgpfhhnh5ifjuiakijrjei8i8haiuigiohzikl2ghjwgzkyhiidhwjcgpj1gfkpgdiwh3jaitiahohzi4i9isi0hhhriwicirhxlvjji9ijhphohvi8hjhti4i9h6iog2gpi5hog9hbioj7iehxjaithciti1hoh8hji2idg9g9idiehni3j9j3huhuhti8h9hbhviujajnkukgkgj4krinimiuj3igh9hrhui8iqici2igjujil9irj9ilikizhli1i0ijiohli0idili3hcihirhkioi7h3imi8hyhkjfkdjeisi0iuhoixibj9iwgxjaj4ipjrhtiuiaj6hmk1irk5heizikihhqhhhbi7h9iqhok3hzhqhih3hvi2hsixhti4inj5isjlh5ili3j3hohihaiyhhhuhehnhvgdiagxhphtgwh0hfhthhh1hihgi0fng9i8hgj6itjjhtiihihkhfjngli2hjhihmhhhvhqi6hghegxhngziffni5gnj4j7j5j2idg0i2hvhpgoi6h0hqiehah8hbfxhpfvhdfrhsgpi7ioi3ifhsgyidini3hahzhhguichpj5i4h6hzi6i5iphxk4h1ighlhohsiahzhoi1imhii7gpk7h7lhi1jwixitjbjsigkzhokigukahji3ibhohthui9jhiajfhtimh7gffbgqhufji9gnh3mbbslnj0izi2jnjki8jihbjchwjof9k9ibjhlpldk4iti1iyj7jfjoiiiuijkji4lzhlimi5k0gzj3g6hph9h2hmiqi8hihqi6hqhmi0i1i8hxgugdhegbinhahzhohli4gxjhgojlh4i2h4i3iwjahkhkhdihhziqigivhfjji7i4hthci2iohwhphrhki4ifhtidiei7hvhdhphaijhjhvhqhchlidhohxjgh8jbhmkxi7iyj0kimbh9lfibj9j5jrlmk2kyifkxjwkym3j6itkyizj8jmnumei3nbixjlhyj4ipibhbi1hxi7i9iaishvi6inh1hqiniahfi4i9i5hni5icifiihyioivimhvhthlicingmidj2j2jeimjdi0iiish5ishoj5geikg4jc","4a90jahnieezioc9ijejhue5h7eri2jbhkj1h9koha","0eg0i1kbikk7i4khjklshxi5i6h8iwb4iph1ilhhiuiajnlijsj5j5jyj1gjiqhuj5gximi8hpflhzfoh3j2j3haicimi8i0huiciki4johnh0gwgyh2hjh3hz","1is3cvfjhzfihnf8ie","12y3cwb5g1ffiohjhrhji7iwi2f3iiekhqf9h4hai2ksiqfdhhjmiqi6hvkwi9huiakeicidhzh4hylzhti9h6jwhnkvizlgis","23o1c3jfi7i3i6hji0igibk2ifgvhrbuj3h4i4guhtjdgzkah1j8hsizie","1gx15xiyiuh1hlhahsiehjidia","1bh138hkigifh5hdhwhrifhvi8i8hdithzi1ik","0dp10vjfi0j3iufkhx","0uv0yig3icihhxjihqihi5hriai8hqhihw","0pa0ypjqj2jeichwi8k6hsi7ieeuikcrifg8h0h8gwhchihuh7idhpj2i4j5ijlri4i5i8","1qq0vvh9ixi8h9jygziqibhfhtggir","3af1bxjohpifi9hfigfni1ivhl","34119yhrhvj9ifh0hq","2yo1adhxhkiji2ifhti4ijh1i2","33819nflhpjehyjgihhlhw","2sg160h7i7i6hjinia","2wc16chqhoijhqisikgzi2","2uq147iqhwibi7gpishchwhrinhphoioh4iuhu","3fs21mk7i3inihgxiig9gy","2v615lhxhpilhviriihghzi1ibhaho","1j80ndibhkioichfhcechihsijhshphehwfticgth9h2hvi0hqish8iwhummi7meh3jfipiwkqhqjcg2kggvgghwhdi8ibi7hpgth3hyhl","1780nom8iydsh2","0pa0u9j9i4j6ikiciih7iifqiviwhfjehmezitg3hphmhgiohqi7hek7huighrgvhvhiiahihrk1hx","19226ogyhihnhdichyi7igijhrilibhhiaiai5iphnhnieihhyhgi6ihi9hiichthk","2k01jthoi4fygweufvhtg9ivfej9ggjfi8irhri9i2hoi5iti3lrghjvgbiggihbgphng2gngagfhgf1hvhqibhuhjfyguhkhfhheciqeahthrhri9hzhujgfmjvgrm3i5juhklxhqijjkjej4j0jsi4jbioi8i0i6hlhpi6ibhnhzhiiji9imhmhqhri5iikxkel3kojci3jyjhjlhyjcgxj1hnjjhiibhohaiphzhkhsihi0ifh1hrhsihhyivh2hzgxgnglgkhuh8hgh9hthhi5gshghmiji0hogwibgzj1i1ieimi8gwi5hvici0hphki6gvk6ibiiizi3hri5ifi4iei1iehlilighhiaicidiqhwi8hgiei9ibhaiii2hsikiri7inhpi0idf1j3gei3geifgniqftjtggk5gsnl","15b0yxjbhtgpi7"]).map(s => { const n = (a, b) => parseInt(s.slice(a, b), 36); let x = n(0, 3), y = n(3, 6); const p = [[9.9 + x / 5000, 55.6 + y / 5000]];
   for (let i = 6; i < s.length; i += 4) { x += n(i, i + 2) - 648; y += n(i + 2, i + 4) - 648; p.push([9.9 + x / 5000, 55.6 + y / 5000]); } return p; });
-const WOOD = [[10.215,56.105,.022,.024],[10.225,56.183,.008,.006],[10.56,56.225,.05,.022],[10.53,56.115,.02,.012],[10.70,56.17,.02,.02],[10.13,56.02,.03,.02],[10.44,56.31,.05,.012],[10.30,56.30,.03,.015]];
-const TOWN = [[10.875,56.413,.02,.01],[10.195,56.155,.045,.026],[10.275,56.215,.018,.008],[10.672,56.200,.012,.008],[10.16,55.975,.012,.007]];
-const NAMES = [["Aarhus",10.135,56.128],["Mols",10.56,56.24],["Helgenæs",10.53,56.118],["Ebeltoft",10.74,56.205],["Grenaa",10.80,56.418],["Djursland",10.62,56.36],["Samsø",10.60,55.86],["Tunø",10.44,55.932,1],["Odder",10.145,55.975],["Kalø Vig",10.415,56.255,1],["Aarhus Bugt",10.37,56.065,1],["Kattegat",10.86,56.03,1]];
+// veje, søer, skov og by fra OpenStreetMap, forenklet og pakket
+const GEO = "R0cw1mifqhe|0c612ehlibh7i2g4hoh9i0|07i1mmmeg7jjgwikhaixhai8hghygmiigmhpgfibhgithbi6hjh7gahrfshfhggfhdh9hihehahogxgngyhpgvhfgxicgaglgy|0h01luh3i4idhrimi5gahrgehagxhp|0i0119h1hugohhfohqgqhqeogh|0cn1kkj5ibjkiqjoi9|0850xzisilkzjdjeickfiajbijiri5|0je1mcfohi|0g0173jbhgj2hxipi4jjilkti6j0i8kmj2kcj8ilisi2j6hxgthdh8fqgufcgwh0htfahugghgh5hvgzi5gfiq|07v12fj3i0k2ic|0ff17ki8iii3juitjqhuihh6irhqijicjkhijehyjrgejogij3dmjt|0u11bxitirjkijkiiem2iaj3hzj0htjggyj7hogvichcik|1ab1cbfdhy|0z41dmeqhgh4hohdhk|09g115ijiti9j4jfj4imjhiwirjminioij|0920ymioimhsis~P1ap1c9k7giighfjohfjkgwidh2j5gyhuh5i8id|1ec1lzpsiijmhwlwh4j8hwithr|1he14pi8hehrh9i7hfhvhqi5ia|1ec1lzcfhkfri1g7i7ewhkfji2h2i5|0831kpjqj2iti5|0ey1mefyi4|0jf1mbl4g3ntfikmgh|1yh1jygbi3|1tf1hkb9fsg5h8gpgph7hifshp|1vk1irhqhqgah6|1gc1cgfhhog7i2|0ae15xg1ii|0hu13oheiagaifffifkohkjlhminhq|0qs1msk1hzjchoinhmj5hu|0v21galog3jnhf|0qo1mtbbhnhihw~S0fg1eeivh1gri1idi0|09y1iyjbjnhshn|1601i8jfjnkti8jnin|0780kflcji|05y0stj4h4jfhc|0fg1eefjli|15v1i1h7gh|0v01gcidj1jbilh7jyi5ikj0iu|0i710qgrjqi6irixikm3j5iaijloixjgjmiej2hmgyglgfebh3hqhhgshlhshzg8jmhuinibhlhnhrithpj6gpfahah2hchyhehbhyipi2ijhkiogmeygpgxhuiai1|0i917fh9l6|1nu1mchgjfguit|0ha0pjkvhajogrjxh4iwh4hvi5|0ar0lyn5i1jriphpiyi9j5hpir|0ao0q6fvj2|0hr117j2ibjoi1gdhzh6hr|09y1iyhvh7iph4hpgtiagx|08i16iiiiwhwjn|0gt1cohiirini3jji0k6hdiwhz|0901nqiohsioh0|0kf0vffbie|0sh1btejj1eji0|0jb0t2ghg2hlgv|0dj184kkgtfvj1|0lu12xhcish4hshdhhicgwiihpiwi6|0x11lbi7iqhsi9ijiyhlici6i7|0ju120huixipilisi7iph7|0f40zck0itiphggzhaj2iqiahwhqi4|0c41kgilhgi5gw|0ck0uvibiphggxgthcihi8|0b119vjtgm|0ff0xnh3hgjxj7h0hd|0b40ttgfh4huhbh4h5|094198i8jfigii|0e30paggi8g6io|0l00yzgqidgei5|09r1bdhuiminj9|0eo0xifziigoipi4i4~L1ho19xj4i6jjhsiei2ibhyiahqhxhyhvi2hkhzhmhsfdhohqicidil|0ak0voi0iaijhwi5hwi4i6i9i2iihqiehmhqhriahrhwhugxidibi7hzi4hci5hoi9|0ak0vohyiah6i3haiahchvhihoheibh8hzhyhxi1huishwichtici1j1ikj3hhini2|0el11th2i1i4icisi1irhriqhzixhlhqhzhuhvgzibhxi4h8i2|0cr11yhshyhei1hphthti3hwhvi8i1huhwhti0i0i4hwhyi5hshni3hjhnhhhyhyhxi8hyidi4ibhzi5i4j0i9ici6isi6i7hzi0i6hni3|0ma16nirhvhyhxi8i2hui6i4i1hwihhfi3h4hqi0hxi8hzi0hviihy|1de1abidi8igi0idi8iahxiki2hzhyhchyhnhuhli1hrhvi4hwhuhwhqi3hxi3i5i1|0jk1lkhohzhwhsh9hyiqhwipi8hzi6hti1|1r31bshvhyi3hui9hwifhxibi3i1i4h2i8|0871niirhtgqi0hui5hshwi0i2hti0idi5irhz|1k5176ici6hri3i2i3i7hxici4i4i9h1hoi0hti7hx|1cq1bniaicidi2i2huhuhthphuhsi5~Fb182911162173521z0r1721952g3z0814211211c11j211q112k16c1332426112z0f1213c12211513513161z1d515221184z0q312262211b4z011n527f121c2h1ub81o153a19121hb22z2b1c18192164241u1b18113e264436281j161e3u2z0o2g24122z081z04233211241z1y1493312j1f2z04211215521h1g1z0c6139161z0j2f1g2k2z3f1z03211s143f255r2l29511d4322111a17145c1717223g11345q3v441f416p2x3k2457121e1y33131d332c2d1u18232i3d171z02153o912c2h1o3a3119c511312k1m5768cw1s1a12113293141t1l1i239241421g3m152l41b1332f322z0cb12112142f24122f131n41583q11131z0532523x14231b1n33323z04293q1131117t15132z03555q493z13185p221z0d38111z0z057z0a1a1t511z0l1v1h1x1z0z0h3z0e1z0z0z021u271z0d132t36171z08112t6b1z094v2z0n2z0z0m4t2z0z0t1z021g1z0z062g1w2z0z0w2z0z0n1z0z0n2u1z0r2t1z0z0n2z0r2z0z0b1a2z0z0b194z0z0i132z0z0c15222z0z0n1z0z0k122z0z0917232z0z081e1z0z072z0z0l1a1z0z0z0z0z0z0z0z0z0z0z0z0z0b2z0z0e1d1z0z0z0z0x21111z0z0g261z0z0f2z0z0o1z0z0z021z0z0z0z0w6z0z0i143z0z0d191z0z0c411z0z0j13241z0z0c153z0a2z092z0b2z081z0e2z0b1z0b1z08131z0b2z0l1z1z04121d1z011z04211c1z0z051211191z0z087z0z0i6z0z0h2z0z0z0z0z0z0z0z0z0z0z011z0z0n1z0z0n2z0z0n2z0z0z0z0z0z0z0z0z0z0z0z0z1z0z0n2z0z0m2z0z0m1z0z0z0z0z0z0z0z0s1r1z0v1p5z0z0k3z0t1z0z0z0z0i~U0843z0z0955311z0e2k17381l3o1y3t4z0m4u1z0c4111163z0z07872b1b1o1o15681z0d2t6z0z021f131z0z0j131z08172z012t1g173z012z0h3z0z0z0z0e1v1o1z1a1t2f161z0k2c3z0m1x1j1z0q1u281z0h2z0f521q2f1c1t431z091z064o1z0u2p3z0c1i171g3z0z1k3731211z0p161815193j2z032q11122z0v1z1z0m1z011b2s2n2z013q4m2z021u212i3j131z093k3z0x352e131z0v153a21141z0s121528212l17132z041a12462n1z09476311112q6z022416432t7z081c1z012z051b112i1i331n2g1112111j1j2s1417219z04311z0111ba1h1a5s132599171n3w64223b1f111c2x655d16371c2ydg27241a1z06217z071z1332512z091v31dz0b1u22b23z08211s112131316r1z0k226z092z01145z0z0c324u1z0j315x1z0i8w1z0j216v2z0b41713z0z0511c14s1z0d51262t1z0a25113z0z0c355z0z0b264z0z0c2b1z0z0m3z0z0c18241z0z0h233z0z0k3z0z0b1z0z0m29251z0z0438351z0z1e261z0z1e1z0z0v2z0z0z0z0z0z0z0z0z0z0m2z0z0m2z0z0a571z0z0416571z0z0b55211z0z0b481z0z0n1t1z0o141z0z0z0z0z0u1c1z0m1z0z0z0z0z0z0z0t281z0z0n1z0z041j1z0z0z0z0z0z0z0z0z0z0g2z0z0z0z0z0z0z0z0z0z0z0z0z0z0j161z011z0z0z0z031z0z0m1z0z0z0z0z0f1z0z0m2z0z0k1z061z0n1z0z0k121z0z0z0z0z0z0z0s1z061z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0r".split("~"), part = k => GEO.find(p => p[0] === k).slice(1);
+const unpack = s => { const n = (a, b) => parseInt(s.slice(a, b), 36); let x = n(0, 3), y = n(3, 6); const p = [[9.9 + x / 2500, 55.6 + y / 2500]];
+  for (let i = 6; i < s.length; i += 4) { x += n(i, i + 2) - 648; y += n(i + 2, i + 4) - 648; p.push([9.9 + x / 2500, 55.6 + y / 2500]); } return p; };
+const lines = k => part(k).split("|").filter(Boolean).map(unpack);
+const ROADS = { m:lines("R"), p:lines("P"), s:lines("S") }, LAKES = lines("L"), GW = 94, GH = 124;
+const cells = k => { const a = new Float32Array(GW * GH); let i = 0, v = 0; for (const ch of part(k)) { const n = parseInt(ch, 36); if (v) a.fill(1, i, i + n); i += n; v ^= 1; } return a; };
+// [navn, lon, lat, type]: 0 by, 1 hav, 2 område, 3 stor by
+const NAMES = [["Aarhus",10.165,56.152,3],["Grenaa",10.879,56.413,0,"w"],["Ebeltoft",10.677,56.199,0],["Odder",10.151,55.976,0],["Hadsten",10.052,56.329,0,"e"],["Hinnerup",10.069,56.268,0,"e"],["Tranbjerg",10.133,56.091,0],
+  ["Mols",10.50,56.215,2],["Helgenæs",10.535,56.112,2],["Djursland",10.62,56.36,2],["Samsø",10.60,55.86,2],["Tunø",10.44,55.932,1],["Kalø Vig",10.415,56.255,1],["Aarhus Bugt",10.37,56.065,1],["Kattegat",10.80,56.03,1]];
 const FERRY = [[10.255,56.150],[10.36,56.10],[10.47,56.068],[10.62,56.045],[10.80,56.03]];
 const M = 560, H = 741;
 
@@ -245,7 +260,10 @@ const h2 = (x, y) => { let h = (x * 374761393 + y * 668265263) ^ 0x5bd1e995; h =
 const vn = (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), fx = x - xi, fy = y - yi, u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy);
   const a = h2(xi, yi), b = h2(xi + 1, yi), c = h2(xi, yi + 1), d = h2(xi + 1, yi + 1); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; };
 const fbm = (x, y) => vn(x, y) * .55 + vn(x * 2.1 + 7, y * 2.1 + 3) * .3 + vn(x * 4.3 + 1, y * 4.3 + 9) * .15;
-const inBlob = (lon, lat, list) => list.some(b => ((lon - b[0]) / b[2]) ** 2 + ((lat - b[1]) / b[3]) ** 2 < 1);
+// grov maske (ca. 600 m celler) blødt op til kortets opløsning
+const spread = g => { const o = new Float32Array(M * H); for (let y = 0; y < H; y++) for (let x = 0; x < M; x++) { const fx = (x + .5) / M * GW - .5, fy = (y + .5) / H * GH - .5, x0 = Math.max(0, Math.floor(fx)), y0 = Math.max(0, Math.floor(fy)), x1 = Math.min(GW - 1, x0 + 1), y1 = Math.min(GH - 1, y0 + 1), u = Math.min(1, Math.max(0, fx - x0)), v = Math.min(1, Math.max(0, fy - y0));
+  o[y * M + x] = (g[y0 * GW + x0] * (1 - u) + g[y0 * GW + x1] * u) * (1 - v) + (g[y1 * GW + x0] * (1 - u) + g[y1 * GW + x1] * u) * v; } return o; };
+const WOODS = spread(cells("F")), TOWNS = spread(cells("U"));
 
 // havpixels tæt på kysten: hvor de ligger, hvilken vej der er ind mod land, og hvor kraftigt de farves
 const COASTAL = [];
@@ -255,38 +273,43 @@ for (let y = 2; y < H - 2; y++) for (let x = 2; x < M - 2; x++) { const i = y * 
   COASTAL.push({ i, x, y, gx:gx / l, gy:gy / l, a:Math.round(a * 215) }); }
 
 function paint() {
-  const cs = getComputedStyle(document.documentElement);
-  const C = {}; for (const k of ["sea-1","sea-2","sea-3","sea-4","foam","sand","sand-2","land-hi","land","land-sh","autumn-hi","autumn","wood","town","town-2"]) {
-    const v = cs.getPropertyValue("--" + k).trim().replace("#", ""); C[k] = [parseInt(v.slice(0, 2), 16), parseInt(v.slice(2, 4), 16), parseInt(v.slice(4, 6), 16)]; }
-  const ctx = $("#base").getContext("2d"), img = ctx.createImageData(M, H), d = img.data;
+  const cs = getComputedStyle(document.documentElement), tok = k => cs.getPropertyValue("--" + k).trim();
+  const C = {}; for (const k of ["sea-1","sea-2","sea-3","sea-4","foam","sand","field-1","field-2","field-3","forest","forest-2","town","town-2"]) {
+    const v = tok(k).replace("#", ""); C[k] = [parseInt(v.slice(0, 2), 16), parseInt(v.slice(2, 4), 16), parseInt(v.slice(4, 6), 16)]; }
+  const ctx = $("#base").getContext("2d"), img = ctx.createImageData(M, H), d = img.data, FIELDS = [C["field-1"], C["field-2"], C["field-1"], C["field-3"], C["field-2"]];
   for (let y = 0; y < H; y++) for (let x = 0; x < M; x++) {
-    const i = y * M + x, lon = BOX.l + (x + .5) / M * (BOX.r - BOX.l), lat = BOX.t - (y + .5) / H * (BOX.t - BOX.b);
-    const br = fbm((x * .8 + y * .6) / 11, (y * .8 - x * .6) / 52);   // lange penselstrøg
-    const n = fbm(x / 44, y / 44);
+    const i = y * M + x, n = fbm(x / 60, y / 60), n2 = fbm(x / 21 + 5, y / 21 + 2);
     let k;
     if (land[i]) {
-      if (near[i] < .86 + (br - .5) * .22) k = br > .52 ? C["sand"] : C["sand-2"];
-      else {
-        const lit = fbm((x - 9) / 86, (y - 9) / 86) - fbm(x / 86, y / 86) + (br - .5) * .05;
-        const tone = lit > .03 ? 0 : lit < -.034 ? 2 : 1;
-        if (inBlob(lon + (n - .5) * .03, lat + (br - .5) * .02, TOWN)) k = (br + n) > 1.02 ? C["town"] : tone === 2 ? C["town-2"] : C["town"];
-        else if (inBlob(lon + (n - .5) * .02, lat + (br - .5) * .012, WOOD)) k = tone === 0 ? C["land"] : tone === 1 ? C["wood"] : C["land-sh"];
-        else if (fbm(x / 120 + 9, y / 120 + 3) + (br - .5) * .1 > .62) k = tone === 0 ? C["autumn-hi"] : tone === 1 ? C["autumn"] : C["land-sh"];
-        else k = tone === 0 ? C["land-hi"] : tone === 1 ? C["land"] : C["land-sh"];
+      if (near[i] < .78) k = C["sand"];
+      else if (TOWNS[i] + (n2 - .5) * .35 > .5) {            // by: flade med små huse
+        const cx = Math.floor(x / 6), cy = Math.floor(y / 6), hx = (cx + .3 + h2(cx, cy) * .4) * 6, hy = (cy + .3 + h2(cy + 7, cx) * .4) * 6;
+        k = Math.abs(x - hx) < 1.5 && Math.abs(y - hy) < 1.5 && h2(cx + 9, cy) > .3 ? C["town-2"] : C["town"];
+      } else if (WOODS[i] + (n2 - .5) * .5 > .5) {             // skov: runde trækroner
+        const cx = Math.floor(x / 7), cy = Math.floor(y / 7), tx = (cx + .25 + h2(cx, cy) * .5) * 7, ty = (cy + .25 + h2(cy + 3, cx) * .5) * 7;
+        k = (x - tx) ** 2 + (y - ty) ** 2 < 6.2 ? C["forest-2"] : C["forest"];
+      } else {                                                // marker: kantede lodder
+        const S = 24, gx = Math.floor(x / S), gy = Math.floor(y / S); let best = 1e9, id = 0;
+        for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const qx = gx + a, qy = gy + b, px2 = (qx + h2(qx, qy)) * S, py2 = (qy + h2(qy + 11, qx)) * S, dd = Math.abs(x - px2) + Math.abs(y - py2); if (dd < best) { best = dd; id = h2(qx + 5, qy + 5); } }
+        k = FIELDS[Math.floor(id * FIELDS.length)];
       }
     } else {
-      const s = far[i] + (br - .5) * .16 + (n - .5) * .08;
-      if (near[i] > .2 + (br - .5) * .16) k = C["foam"];
-      else if (s > .34) k = C["sea-4"];
-      else if (s > .15) k = br > .7 ? C["sea-4"] : C["sea-3"];
-      else if (s > .035) k = br > .72 ? C["sea-3"] : C["sea-2"];
-      else k = br > .74 ? C["sea-2"] : C["sea-1"];
+      const s = far[i] + (n - .5) * .05;
+      k = near[i] > .26 ? C["foam"] : s > .3 ? C["sea-4"] : s > .14 ? C["sea-3"] : s > .04 ? C["sea-2"] : C["sea-1"];
     }
     d[i * 4] = k[0]; d[i * 4 + 1] = k[1]; d[i * 4 + 2] = k[2]; d[i * 4 + 3] = 255;
   }
   ctx.putImageData(img, 0, 0);
-  ctx.setLineDash([3, 9]); ctx.lineWidth = 1.6; ctx.strokeStyle = "rgba(255,246,220,.55)"; ctx.beginPath();
-  FERRY.forEach((p, i) => i ? ctx.lineTo(px(p[0]) * M, py(p[1]) * H) : ctx.moveTo(px(p[0]) * M, py(p[1]) * H)); ctx.stroke(); ctx.setLineDash([]);
+  // søer, veje, byprikker og færgerute tegnes skarpt i dobbelt opløsning
+  const lc = $("#lines"), g = lc.getContext("2d"), W2 = lc.width, H2 = lc.height, P = p => [px(p[0]) * W2, py(p[1]) * H2];
+  const path = pts => { g.beginPath(); pts.forEach((p, i) => { const q = P(p); i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1]); }); };
+  g.clearRect(0, 0, W2, H2); g.lineJoin = g.lineCap = "round";
+  for (const l of LAKES) { path(l); g.closePath(); g.fillStyle = tok("lake"); g.fill(); g.lineWidth = 2; g.strokeStyle = tok("foam"); g.stroke(); }
+  const road = tok("road"), rcase = tok("road-case");
+  g.globalAlpha = .75; g.strokeStyle = road; g.lineWidth = 2; for (const r of ROADS.s) { path(r); g.stroke(); } g.globalAlpha = 1;
+  for (const [set, wc, w] of [[ROADS.p, 5, 3], [ROADS.m, 7.5, 4.6]]) { g.strokeStyle = rcase; g.lineWidth = wc; for (const r of set) { path(r); g.stroke(); } g.strokeStyle = road; g.lineWidth = w; for (const r of set) { path(r); g.stroke(); } }
+  for (const n of NAMES) if (n[3] === 0 || n[3] === 3) { const q = P([n[1], n[2]]); g.beginPath(); g.arc(q[0], q[1], n[3] === 3 ? 8 : 6, 0, 7); g.fillStyle = road; g.fill(); g.lineWidth = 2.5; g.strokeStyle = "#2f3a35"; g.stroke(); }
+  g.setLineDash([5, 14]); g.lineWidth = 2.4; g.strokeStyle = "rgba(255,255,255,.6)"; path(FERRY); g.stroke(); g.setLineDash([]);
 }
 
 /* ---------- vindlogik ---------- */
@@ -384,7 +407,7 @@ const ARROW = '<path d="M8 1l5 6.2H9.6V15H6.4V7.2H3z"/>';
 
 function buildStatic() {
   const names = $("#names");
-  NAMES.forEach(n => { const e = el("span", "place-name" + (n[3] ? " sea" : ""), n[0]); e.style.left = px(n[1]) * 100 + "%"; e.style.top = py(n[2]) * 100 + "%"; names.append(e); });
+  NAMES.forEach(n => { const e = el("span", "place-name " + ["town", "sea", "area", "town big"][n[3] || 0] + (n[4] ? " " + n[4] : ""), n[0]); e.style.left = px(n[1]) * 100 + "%"; e.style.top = py(n[2]) * 100 + "%"; names.append(e); });
   const mk = $("#markers");
   SPOTS.forEach(s => {
     const b = el("button", "spot"); b.type = "button"; b.dataset.id = s.id; b.style.left = px(s.lon) * 100 + "%"; b.style.top = py(s.lat) * 100 + "%";
@@ -473,7 +496,7 @@ function tick() {
     for (const p of parts) {
       const a = base + (fbm(p.x / 120 + tk * .002, p.y / 120) - .5) * 1.5, nx = p.x + Math.sin(a) * v, ny = p.y - Math.cos(a) * v; p.life--;
       if (p.life < 0 || nx < 0 || ny < 0 || nx >= M || ny >= H) { p.x = Math.random() * M; p.y = Math.random() * H; p.life = 80 + Math.random() * 140; continue; }
-      if (!land[Math.floor(ny) * M + Math.floor(nx)]) { wctx.strokeStyle = thread; wctx.globalAlpha = .55; wctx.lineWidth = 1.7; wctx.beginPath(); wctx.moveTo(p.x, p.y); wctx.lineTo(nx, ny); wctx.stroke(); wctx.globalAlpha = 1; }
+      if (!land[Math.floor(ny) * M + Math.floor(nx)]) { wctx.strokeStyle = thread; wctx.globalAlpha = .6; wctx.lineWidth = 1.5; wctx.beginPath(); wctx.moveTo(p.x, p.y); wctx.lineTo(nx, ny); wctx.stroke(); wctx.globalAlpha = 1; }
       p.x = nx; p.y = ny;
     }
   }
