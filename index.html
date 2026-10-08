@@ -11,36 +11,36 @@
 <style>
 /* Layout: et malet kort som scene til venstre, spotlisten som følge til højre; detaljer og steder nedenunder. Vinden tegnes som lysende tråde. */
 :root{
-  --sky-a:#f3ead6; --sky-b:#dde7da; --panel:#fbf7ee; --panel2:#f1ebdc; --ink:#2f3a35; --muted:#6c776f; --rule:#d8cfba;
-  --gold:#c9963f; --accent:#25667a; --accent-ink:#ffffff; --teal:#3b8d95;
-  --go:#2f9463; --warn:#dc9a12; --stop:#cf4034; --on-status:#ffffff; --on-warn:#2a1a00;
-  --side:#2f9463; --onshore:#e8ad1c; --off:#d2413f;
-  --sea-1:#4391a6; --sea-2:#5ba8b6; --sea-3:#7dc0c4; --sea-4:#a8d8d1; --foam:#f7f1da;
-  --sand:#f1e2b4; --field-1:#dde2a2; --field-2:#c9d98e; --field-3:#ead99c; --forest:#86b477; --forest-2:#689d68;
-  --town:#eed3b4; --town-2:#d8a583; --lake:#8fcdd5; --road:#fffaf0; --road-case:#b99a6c; --thread:#ffffff; --haze:255,236,200;
+  --sky-a:#ffdcae; --sky-b:#f7bcae; --panel:#fffdf8; --panel2:#fbeedd; --ink:#2b2330; --muted:#7c6a70; --rule:#edd3bb;
+  --gold:#e5a52c; --accent:#7566c9; --accent-ink:#ffffff; --bar:#e0483a; --teal:#3b8d95;
+  --go:#23915f; --warn:#e6a400; --stop:#d63b34; --on-status:#ffffff; --on-warn:#2a1a00;
+  --side:#23915f; --onshore:#ffd23a; --off:#d63b34;
+  --sea-1:#3d8d9d; --sea-2:#55a3ab; --sea-3:#7bbcb8; --sea-4:#a9d6c6; --foam:#fff3d6;
+  --sand:#fbe3ab; --field-1:#f3bd55; --field-2:#eba845; --field-3:#f8d074; --forest:#dcae48; --forest-2:#2f6b4f; --forest-3:#f6cf35;
+  --town:#f8e2bd; --town-2:#d9573f; --lake:#7cc6c9; --road:#7b5038; --road-case:#f8d98f; --thread:#ffffff; --haze:255,168,150;
   --font-display:"Jost","Futura","Century Gothic",system-ui,sans-serif;
   --font-caps:"Jost","Futura","Century Gothic",system-ui,sans-serif;
   --font-body:"Jost","Futura","Century Gothic",system-ui,sans-serif;
-  --lift:0 14px 34px -18px rgba(40,50,45,.5);
+  --lift:0 14px 34px -18px rgba(90,40,40,.5);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --sky-a:#1c2430; --sky-b:#15212a; --panel:#222d38; --panel2:#2b3742; --ink:#eef0e6; --muted:#a3b0ad; --rule:#44525c;
-  --gold:#e3b565; --accent:#7fc4d6; --accent-ink:#0f2530; --teal:#6cc0c4;
-  --go:#4fc98f; --warn:#f3bf4c; --stop:#f07a6a; --on-status:#0c1a14; --on-warn:#2a1a00;
-  --side:#4fc98f; --onshore:#f3bf4c; --off:#f0655f;
-  --sea-1:#15364a; --sea-2:#1d485e; --sea-3:#285f73; --sea-4:#3a7a86; --foam:#cdbd93;
-  --sand:#a9966c; --field-1:#607b56; --field-2:#536f51; --field-3:#747850; --forest:#365f4a; --forest-2:#2a4e41;
-  --town:#86695f; --town-2:#b08a72; --lake:#3a7f90; --road:#e0cfa3; --road-case:#2c3330; --thread:#e8f4f0; --haze:120,150,190;
+  --sky-a:#3b2542; --sky-b:#1f2440; --panel:#2a2238; --panel2:#352b45; --ink:#fbeede; --muted:#b9a6b4; --rule:#4b3d57;
+  --gold:#f0b84a; --accent:#a99cf0; --accent-ink:#1c1638; --bar:#f0604f; --teal:#6cc0c4;
+  --go:#4fd093; --warn:#ffc83d; --stop:#f4695f; --on-status:#0c1a14; --on-warn:#2a1a00;
+  --side:#4fd093; --onshore:#ffd23a; --off:#f4695f;
+  --sea-1:#1b3d54; --sea-2:#245068; --sea-3:#316779; --sea-4:#44818a; --foam:#e6c592;
+  --sand:#b88f58; --field-1:#a4722f; --field-2:#93632b; --field-3:#b38338; --forest:#7f6a2f; --forest-2:#1d4739; --forest-3:#c99c2b;
+  --town:#7c5b4c; --town-2:#cf5a44; --lake:#3f8894; --road:#3b2720; --road-case:#b88a45; --thread:#f4ecf4; --haze:210,90,120;
   --lift:0 14px 34px -16px rgba(0,0,0,.7);
   color-scheme:dark } }
 :root[data-theme="dark"]{
-  --sky-a:#1c2430; --sky-b:#15212a; --panel:#222d38; --panel2:#2b3742; --ink:#eef0e6; --muted:#a3b0ad; --rule:#44525c;
-  --gold:#e3b565; --accent:#7fc4d6; --accent-ink:#0f2530; --teal:#6cc0c4;
-  --go:#4fc98f; --warn:#f3bf4c; --stop:#f07a6a; --on-status:#0c1a14; --on-warn:#2a1a00;
-  --side:#4fc98f; --onshore:#f3bf4c; --off:#f0655f;
-  --sea-1:#15364a; --sea-2:#1d485e; --sea-3:#285f73; --sea-4:#3a7a86; --foam:#cdbd93;
-  --sand:#a9966c; --field-1:#607b56; --field-2:#536f51; --field-3:#747850; --forest:#365f4a; --forest-2:#2a4e41;
-  --town:#86695f; --town-2:#b08a72; --lake:#3a7f90; --road:#e0cfa3; --road-case:#2c3330; --thread:#e8f4f0; --haze:120,150,190;
+  --sky-a:#3b2542; --sky-b:#1f2440; --panel:#2a2238; --panel2:#352b45; --ink:#fbeede; --muted:#b9a6b4; --rule:#4b3d57;
+  --gold:#f0b84a; --accent:#a99cf0; --accent-ink:#1c1638; --bar:#f0604f; --teal:#6cc0c4;
+  --go:#4fd093; --warn:#ffc83d; --stop:#f4695f; --on-status:#0c1a14; --on-warn:#2a1a00;
+  --side:#4fd093; --onshore:#ffd23a; --off:#f4695f;
+  --sea-1:#1b3d54; --sea-2:#245068; --sea-3:#316779; --sea-4:#44818a; --foam:#e6c592;
+  --sand:#b88f58; --field-1:#a4722f; --field-2:#93632b; --field-3:#b38338; --forest:#7f6a2f; --forest-2:#1d4739; --forest-3:#c99c2b;
+  --town:#7c5b4c; --town-2:#cf5a44; --lake:#3f8894; --road:#3b2720; --road-case:#b88a45; --thread:#f4ecf4; --haze:210,90,120;
   --lift:0 14px 34px -16px rgba(0,0,0,.7);
   color-scheme:dark }
 
@@ -60,19 +60,20 @@ button{font:inherit;color:inherit}
 .frame{position:relative;width:min(100%,calc((100dvh - 130px) * .756));min-width:min(100%,340px);margin-inline:auto;border-radius:18px;border:1px solid var(--rule);box-shadow:var(--lift);background:var(--panel);overflow:hidden}
 .map{position:relative;aspect-ratio:560/741;background:var(--sea-2);overflow:hidden}
 .map canvas{position:absolute;inset:0;width:100%;height:100%}
-.map::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(var(--haze),.28),rgba(var(--haze),0) 42%)}
+.map::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(var(--haze),.42),rgba(var(--haze),0) 48%)}
 .map #wind{pointer-events:none}
 .map #shore{pointer-events:none}
 .layer{position:absolute;inset:0}
 .glass{background:color-mix(in srgb,var(--panel) 90%,transparent);border:1px solid var(--rule);border-radius:14px}
-.place-name{position:absolute;transform:translate(-50%,-50%);font-family:var(--font-caps);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#2f3a35;text-shadow:0 0 4px rgba(255,250,235,.95),0 0 2px rgba(255,250,235,.95);pointer-events:none;white-space:nowrap}
+.place-name{position:absolute;transform:translate(-50%,-50%);font-family:var(--font-caps);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#2b2330;text-shadow:0 0 4px rgba(255,246,225,.95),0 0 2px rgba(255,246,225,.95);pointer-events:none;white-space:nowrap}
 .place-name.town{transform:translate(-50%,-150%)}
 .place-name.e{transform:translate(9px,-50%)}
 .place-name.w{transform:translate(calc(-100% - 9px),-50%)}
 .place-name.big{font-size:14px;font-weight:600}
 .place-name.area{font-weight:400;letter-spacing:.3em;opacity:.75}
 .place-name.sea{color:#fff;text-shadow:0 1px 5px rgba(20,60,80,.55);font-weight:400;font-size:12px;letter-spacing:.34em;opacity:.9}
-.hud{position:absolute;left:12px;top:12px;padding:8px 14px 9px 12px;z-index:4;display:flex;flex-direction:column;gap:3px;max-width:calc(100% - 80px)}
+.hud{position:absolute;left:18px;top:12px;padding:8px 14px 9px 12px;z-index:4;display:flex;flex-direction:column;gap:3px;max-width:calc(100% - 80px)}
+.hud{border-left:6px solid var(--bar);border-radius:4px 14px 14px 4px;box-shadow:-6px 0 0 var(--accent)}
 .hud h1{font-size:23px;font-weight:600;letter-spacing:.02em;text-transform:lowercase}
 .hud .now{display:flex;align-items:center;gap:8px}
 .hud .big{font-family:var(--font-display);font-size:26px;line-height:1}
@@ -157,7 +158,8 @@ button{font:inherit;color:inherit}
   .spot:not(.sel) .tag{display:none}
   .spot .kite{width:22px;height:22px;margin:-11px} .spot .kite b{font-size:11px}
   .place-name{font-size:10px} .place-name.sea{font-size:11px}
-  .hud h1{font-size:20px} .hud .big{font-size:22px}
+  .hud{border-left:6px solid var(--bar);border-radius:4px 14px 14px 4px;box-shadow:-6px 0 0 var(--accent)}
+.hud h1{font-size:20px} .hud .big{font-size:22px}
   .key{font-size:11px;padding:5px 10px 7px;max-width:44%}
   .key .label{display:none}
   .key div{flex-direction:column}
@@ -274,7 +276,7 @@ for (let y = 2; y < H - 2; y++) for (let x = 2; x < M - 2; x++) { const i = y * 
 
 function paint() {
   const cs = getComputedStyle(document.documentElement), tok = k => cs.getPropertyValue("--" + k).trim();
-  const C = {}; for (const k of ["sea-1","sea-2","sea-3","sea-4","foam","sand","field-1","field-2","field-3","forest","forest-2","town","town-2"]) {
+  const C = {}; for (const k of ["sea-1","sea-2","sea-3","sea-4","foam","sand","field-1","field-2","field-3","forest","forest-2","forest-3","town","town-2"]) {
     const v = tok(k).replace("#", ""); C[k] = [parseInt(v.slice(0, 2), 16), parseInt(v.slice(2, 4), 16), parseInt(v.slice(4, 6), 16)]; }
   const ctx = $("#base").getContext("2d"), img = ctx.createImageData(M, H), d = img.data, FIELDS = [C["field-1"], C["field-2"], C["field-1"], C["field-3"], C["field-2"]];
   for (let y = 0; y < H; y++) for (let x = 0; x < M; x++) {
@@ -286,8 +288,8 @@ function paint() {
         const cx = Math.floor(x / 6), cy = Math.floor(y / 6), hx = (cx + .3 + h2(cx, cy) * .4) * 6, hy = (cy + .3 + h2(cy + 7, cx) * .4) * 6;
         k = Math.abs(x - hx) < 1.5 && Math.abs(y - hy) < 1.5 && h2(cx + 9, cy) > .3 ? C["town-2"] : C["town"];
       } else if (WOODS[i] + (n2 - .5) * .5 > .5) {             // skov: runde trækroner
-        const cx = Math.floor(x / 7), cy = Math.floor(y / 7), tx = (cx + .25 + h2(cx, cy) * .5) * 7, ty = (cy + .25 + h2(cy + 3, cx) * .5) * 7;
-        k = (x - tx) ** 2 + (y - ty) ** 2 < 6.2 ? C["forest-2"] : C["forest"];
+        const cx = Math.floor(x / 8), cy = Math.floor(y / 9), tx = (cx + .3 + h2(cx, cy) * .4) * 8, ty = (cy + .5 + h2(cy + 3, cx) * .3) * 9, dy = y - (ty - 5);
+        k = dy >= 0 && dy <= 8 && Math.abs(x - tx) <= .6 + dy * .38 ? (h2(cx + 4, cy + 8) < .24 ? C["forest-3"] : C["forest-2"]) : C["forest"];   // grantræer, enkelte gule
       } else {                                                // marker: kantede lodder
         const S = 24, gx = Math.floor(x / S), gy = Math.floor(y / S); let best = 1e9, id = 0;
         for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const qx = gx + a, qy = gy + b, px2 = (qx + h2(qx, qy)) * S, py2 = (qy + h2(qy + 11, qx)) * S, dd = Math.abs(x - px2) + Math.abs(y - py2); if (dd < best) { best = dd; id = h2(qx + 5, qy + 5); } }
@@ -306,9 +308,9 @@ function paint() {
   g.clearRect(0, 0, W2, H2); g.lineJoin = g.lineCap = "round";
   for (const l of LAKES) { path(l); g.closePath(); g.fillStyle = tok("lake"); g.fill(); g.lineWidth = 2; g.strokeStyle = tok("foam"); g.stroke(); }
   const road = tok("road"), rcase = tok("road-case");
-  g.globalAlpha = .75; g.strokeStyle = road; g.lineWidth = 2; for (const r of ROADS.s) { path(r); g.stroke(); } g.globalAlpha = 1;
+  g.globalAlpha = .55; g.strokeStyle = road; g.lineWidth = 2; for (const r of ROADS.s) { path(r); g.stroke(); } g.globalAlpha = 1;
   for (const [set, wc, w] of [[ROADS.p, 5, 3], [ROADS.m, 7.5, 4.6]]) { g.strokeStyle = rcase; g.lineWidth = wc; for (const r of set) { path(r); g.stroke(); } g.strokeStyle = road; g.lineWidth = w; for (const r of set) { path(r); g.stroke(); } }
-  for (const n of NAMES) if (n[3] === 0 || n[3] === 3) { const q = P([n[1], n[2]]); g.beginPath(); g.arc(q[0], q[1], n[3] === 3 ? 8 : 6, 0, 7); g.fillStyle = road; g.fill(); g.lineWidth = 2.5; g.strokeStyle = "#2f3a35"; g.stroke(); }
+  for (const n of NAMES) if (n[3] === 0 || n[3] === 3) { const q = P([n[1], n[2]]); g.beginPath(); g.arc(q[0], q[1], n[3] === 3 ? 8 : 6, 0, 7); g.fillStyle = "#fffaf0"; g.fill(); g.lineWidth = 2.5; g.strokeStyle = "#2b2330"; g.stroke(); }
   g.setLineDash([5, 14]); g.lineWidth = 2.4; g.strokeStyle = "rgba(255,255,255,.6)"; path(FERRY); g.stroke(); g.setLineDash([]);
 }
 
