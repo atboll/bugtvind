@@ -55,8 +55,8 @@ button{font:inherit;color:inherit}
 .label{font-family:var(--font-caps);font-size:13px;letter-spacing:.09em;color:var(--muted)}
 
 /* ramme */
-.frame{position:relative;width:min(100%,calc(100dvh - 150px));min-width:min(100%,340px);margin-inline:auto;border-radius:22px;border:1px solid var(--rule);box-shadow:var(--lift),0 0 0 5px color-mix(in srgb,var(--panel) 70%,transparent);background:var(--panel);overflow:hidden}
-.map{position:relative;aspect-ratio:1;background:var(--sea-2);overflow:hidden}
+.frame{position:relative;width:min(100%,calc((100dvh - 130px) * .756));min-width:min(100%,340px);margin-inline:auto;border-radius:22px;border:1px solid var(--rule);box-shadow:var(--lift),0 0 0 5px color-mix(in srgb,var(--panel) 70%,transparent);background:var(--panel);overflow:hidden}
+.map{position:relative;aspect-ratio:560/741;background:var(--sea-2);overflow:hidden}
 .map canvas{position:absolute;inset:0;width:100%;height:100%}
 .map::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 70px rgba(30,16,60,.35)}
 .map #wind{pointer-events:none;mix-blend-mode:screen}
@@ -83,6 +83,7 @@ button{font:inherit;color:inherit}
 .key div{display:flex;flex-wrap:wrap;gap:2px 12px}
 .key span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .key i{width:16px;height:6px;border-radius:3px;display:inline-block}
+.key .feed i{width:8px;height:8px;border-radius:50%}
 .credit{position:absolute;right:12px;bottom:8px;font-size:10px;color:#fff6dc;opacity:.85;text-shadow:0 1px 3px rgba(15,20,60,.9);z-index:2;text-align:right}
 
 .spot{position:absolute;width:0;height:0;border:0;padding:0;background:none;cursor:pointer;--c:var(--muted);--on:var(--on-status)}
@@ -95,7 +96,7 @@ button{font:inherit;color:inherit}
 .spot .tag svg{width:13px;height:13px;transition:transform .5s}
 .spot .tag path{fill:var(--accent)}
 .spot.sel{z-index:3}
-.spot.sel .kite{width:34px;height:34px;margin:-17px;box-shadow:0 0 0 1.5px #2a1f47,0 0 0 5px color-mix(in srgb,var(--c) 45%,transparent),0 0 22px 6px var(--c)}
+.spot.sel .kite{width:30px;height:30px;margin:-15px;box-shadow:0 0 0 1.5px #2a1f47,0 0 0 5px color-mix(in srgb,var(--c) 45%,transparent),0 0 22px 6px var(--c)}
 .spot.sel .kite b{font-size:16px}
 .spot.sel .tag{background:var(--ink);color:var(--panel);border-color:var(--ink)}
 .spot.sel .tag path{fill:var(--panel)}
@@ -104,7 +105,7 @@ button{font:inherit;color:inherit}
 @keyframes float{50%{translate:0 -4px}}
 
 /* spotkort inde i rammen */
-.info{position:absolute;right:12px;bottom:30px;width:min(318px,46%);z-index:5;padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--lift)}
+.info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px;background:var(--panel);border-top:1px solid var(--rule);min-width:0}
 .info header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .info h2{font-size:25px}
 .x{border:0;background:none;font-size:20px;line-height:1;padding:2px 4px;cursor:pointer;color:var(--muted)}
@@ -120,7 +121,7 @@ button{font:inherit;color:inherit}
 .trio div{background:var(--panel);padding:5px 8px}
 .trio b{display:block;font-family:var(--font-display);font-weight:400;font-size:19px;line-height:1.15}
 .trio .label{font-size:12px}
-.hours{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--panel2)}
+.hours{position:relative;overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--panel2)}
 .hours ol{list-style:none;margin:0;padding:0;display:flex;width:max-content}
 .hr{width:34px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 0 0;border:0;border-right:1px solid color-mix(in srgb,var(--rule) 40%,transparent);background:none;cursor:pointer;font-size:11px}
 .hr.day{border-left:2px solid var(--gold)}
@@ -134,19 +135,25 @@ button{font:inherit;color:inherit}
 .hr .bar.go{background:var(--go)} .hr .bar.warn{background:var(--warn)} .hr .bar.stop{background:var(--stop)}
 
 /* tid */
-.time{width:min(100%,calc(100dvh - 150px));min-width:min(100%,340px);margin-inline:auto;padding:10px 16px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-radius:16px;box-shadow:var(--lift)}
+.time{width:min(100%,calc((100dvh - 130px) * .756));min-width:min(100%,340px);margin-inline:auto;padding:10px 16px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-radius:16px;box-shadow:var(--lift)}
 .time .when{font-family:var(--font-display);font-size:22px;min-width:5.6em}
 .time input{width:100%;accent-color:var(--accent);min-width:0}
 .btn{font-family:var(--font-caps);font-size:15px;letter-spacing:.04em;border:1px solid var(--rule);border-radius:99px;background:var(--panel2);padding:3px 14px;cursor:pointer}
 .btn:hover{border-color:var(--gold)}
 
+@media (min-width:900px){
+  .frame{display:grid;grid-template-columns:minmax(0,1fr) 330px;width:min(100%,calc((100dvh - 130px) * .756 + 330px))}
+  .time{width:min(100%,calc((100dvh - 130px) * .756 + 330px))}
+  .info{border-top:0;border-left:1px solid var(--rule);justify-content:center}
+}
 @media (max-width:640px){
-  .info{position:static;width:auto;border:0;border-top:1px solid var(--rule);border-radius:0;box-shadow:none;background:var(--panel)}
   .spot:not(.sel) .tag{display:none}
   .spot .kite{width:22px;height:22px;margin:-11px} .spot .kite b{font-size:11px}
   .place-name{font-size:10px} .place-name.sea{font-size:11px}
   .hud h1{font-size:20px} .hud .big{font-size:22px}
-  .key{position:static;border:0;border-top:1px solid var(--rule);border-radius:0;background:var(--panel);padding:10px 14px 12px}
+  .key{font-size:11px;padding:5px 10px 7px;max-width:44%}
+  .key .label{display:none}
+  .key div{flex-direction:column}
   .credit{font-size:9px}
   .time{grid-template-columns:minmax(0,1fr) auto}
   .time input{grid-column:1/-1;grid-row:2}
@@ -156,9 +163,9 @@ button{font:inherit;color:inherit}
 <div class="wrap">
   <section class="frame" aria-label="Kitevejr for Aarhus Bugt">
     <div class="map" id="map">
-      <canvas id="base" width="640" height="640" aria-hidden="true"></canvas>
-      <canvas id="shore" width="640" height="640" aria-hidden="true"></canvas>
-      <canvas id="wind" width="640" height="640" aria-hidden="true"></canvas>
+      <canvas id="base" width="560" height="741" aria-hidden="true"></canvas>
+      <canvas id="shore" width="560" height="741" aria-hidden="true"></canvas>
+      <canvas id="wind" width="560" height="741" aria-hidden="true"></canvas>
       <div class="layer" id="names" aria-hidden="true"></div>
       <div class="layer" id="markers"></div>
       <div class="hud glass" aria-live="polite">
@@ -166,15 +173,15 @@ button{font:inherit;color:inherit}
         <div class="now"><svg class="arrow" id="hudarrow" viewBox="0 0 16 16"><path d="M8 1l5 6.2H9.6V15H6.4V7.2H3z"/></svg><span class="big num" id="hudspeed">–</span><small id="hudsub"></small></div>
       </div>
       <div class="north glass">N ↑</div>
+      <div class="key glass"><b class="label">Vandet langs kysten</b><div>
+        <span><i style="background:var(--side)"></i>sidevind</span>
+        <span><i style="background:var(--onshore)"></i>pålands</span>
+        <span><i style="background:var(--off)"></i>fralands</span></div>
+        <button class="feed" id="feed" type="button" title="Hent vejret igen"><i></i><span id="feedtxt">Henter vejr…</span></button>
+      </div>
       <div class="credit">Vejr: Open-Meteo · Kyst © OpenStreetMap</div>
     </div>
-    <div class="info glass" id="info" aria-live="polite"></div>
-    <div class="key glass"><b class="label">Vandet langs kysten</b><div>
-      <span><i style="background:var(--side)"></i>sidevind</span>
-      <span><i style="background:var(--onshore)"></i>pålands</span>
-      <span><i style="background:var(--off)"></i>fralands</span></div>
-      <button class="feed" id="feed" type="button" title="Hent vejret igen"><i></i><span id="feedtxt">Henter vejr…</span></button>
-    </div>
+    <div class="info" id="info" aria-live="polite"></div>
   </section>
   <div class="time">
     <span class="when" id="when">Nu</span>
@@ -202,38 +209,38 @@ const SPOTS = [
   { id:"saksild", name:"Saksild Strand", lat:55.9750, lon:10.2680, facing:85 },
 ];
 /* ---------- kort ---------- */
-const BOX = { l:10.06, r:10.82, b:55.905, t:56.33 };
+const BOX = { l:10.03, r:10.97, b:55.755, t:56.45 };
 const px = lon => (lon - BOX.l) / (BOX.r - BOX.l), py = lat => (BOX.t - lat) / (BOX.t - BOX.b);
 // kystlinje fra OpenStreetMap, forenklet til ca. 100 m og pakket som base36-deltaer
-const COAST = (["0qp04uijibj5huiii5jkiyisiukfjdjhibibhuhzi7ibhriki9hqhzibi5hoi1hriei0j5inl7iojpgbkdhvk5jcjej2jsjlivh2ifgzi3gyhphqhlhxi7h6i6huhnhgi2huhih3h7fhhnh5ifihi8iuhviji7kijrjei8i8haiuigiohzikl2ghjwh2k1hxixhiidhwjcgpj1hlj7h4ithqipgdiwh3jai5i7ioi3hohzi4i9isi0hhhriwicirhxlvjji9ijhphohvi8hjhti4i9h6ioi5hwfxgti5hog9hbioj7iehxjaithdighzidi1hoh8hjiaibhsi2g9g9idiehni3iyikhohyinilhuhuhti8h9hbhwiwjhjihsi3kukgkgj4krinimiuj3igh9hrhui8ifidibhzi2igjujijeiijvi9j9ilikizhli1i0ijiohli0idili3hcihirhkioi7h3imi8hyhgj7i6iakbjcipi1iihoisi0jtj6gxj8i8idjcihjbhqizi9j1hnjwirkbheiyikihhqhhhbi7h9iqhok3hzhqhih3hvi2hsixhti4inj5isilhwj0h9ichxhqi8ibhui8i4j3hohihaiyhhhuhehnhvgdiagxhphtgwh0hfhthhh1hihgi0fng9i8hgj6itjjhtiihihkhfjngli2hjhihmhhhvhqi6hghegxhngziffni5gnj4j7j5j2idg0i2hvhpgoi6h0hqiehahkhvhohgfxhpfvhdfzhxhshvgpi7ioi3ifhsgyidini3hahzhhguichpj5i4h6hzi6i5iphxk4h1ighlhohsiahzhoi1imhii7gpk7h7lhi1jwixitjbjsigkzhokigukahji3ibi0huhohzhpi3i5i6iui1ini9ipi2iqhrimh7gffbgqhugeiah5hzgnh3k6ejk8f8lkj1izi2jnjki8jihuirhhilhwjpgtiqgkjchyiwicixj5j7jmiyivj2k4iti1iyipiiiiixjoiiiuijiwi4kvhsjki3j7hqimi5jghdj2h4ilgohph9h2hmiqi8hihqi6hqhmi0i1i8i3h2hri1i3hrhihngvhrgbinh6hyhrhfidh4hsi4i0hwjhgojlh4i2h4huipi9i7jahkhkhdihhzi7iaiji6ivhfjji7i4hthti6hjhwihi2hwhribi3hphrhki4ifhtiii8hvi6i7hvhdhphaijhjhvhqhchlidhohxjgh8jbhmkwi7izj0kimbh9lfibj9izjkj6iykmjbiziajzi5isiqk5j6knltj9izjjij","2mc04ujbjbi1j7gvj7hajwhjh8iphzhkhsihi0ifh1hrhsihhyiwh0hygzgogr","2f004uhyigipi5hpi7h4i1hvici0hphki6hmj8hki8hpiqiaihj0i4hri5iqi5ihhlilighkigihi8inhri3hkifi8iahbi4i6iehwhsikiri7inhpi0icf3j4gci3geifgniqftjtggk5h6kphmkwhqi4fsgueyfxhph5i9gij0fciyh4jgi8irhri9i2hli0i3i5j0i2kvgwk4ghiwg8hbgfhvgm","1ps0ddjfi7i3i6hji0ici0i4ibk2ifgvhrbuj3h4i4guhtjdgzkah1j8hsizie","131077i9ihipidh1hlhahsiehjidia","2wj0d7johpifi9hfigfni1ivhl","3150bohri1jbi0gyhz","2q50b8hrhvj9ifh0hq","2ks0bnhxhkiji2ifhti4ijh1i2","2pc0axflhpjehyjgihhlhw","2dl07si8hxi8i9hji5i1hp","2ek07ah7i7hthvidhoinia","2ig07mhqhoijhqisikgzi2","2gu05hiqhwibi7gpishchwhrinhphoioh4iuhu","2ix04vi2i7hdi4hxhn","31w12wk7i3inihgxiig9gy","2ha06vhxhpilhviriihghzi1ibhaho","0v617ygyhihnhdichyi7igijhrilibhhiaiai5iphnhnieihhyhgi6ihi9hiichthk"]).map(s => { const n = (a, b) => parseInt(s.slice(a, b), 36); let x = n(0, 3), y = n(3, 6); const p = [[10 + x / 5000, 55.85 + y / 5000]];
-  for (let i = 6; i < s.length; i += 4) { x += n(i, i + 2) - 648; y += n(i + 2, i + 4) - 648; p.push([10 + x / 5000, 55.85 + y / 5000]); } return p; });
+const COAST = (["0dv12wjnhflfhzjdigk2i2j3iahwi7iji7iui4l4hljfi6iehjhvhdiuh6j9ilibisiriaj9h8i8hfhah1i0h7j6hkjfgpmtgpihihi9inhti6hxhshdj0jlj2i1hih7hniuiai3iohqj1h6icivhkhphuh9iphokak2i3mdkyjjihiqhwi5i7i5hriliahphyibi5hfifi0j5jbmwgbkdhvk5kel6jlivh2ifgzi3gyhphqhlh3idhuhnhgi2gxgpfhhnh5ifjuiakijrjei8i8haiuigiohzikl2ghjwgzkyhiidhwjcgpj1gfkpgdiwh3jaitiahohzi4i9isi0hhhriwicirhxlvjji9ijhphohvi8hjhti4i9h6iog2gpi5hog9hbioj7iehxjaithciti1hoh8hji2idg9g9idiehni3j9j3huhuhti8h9hbhviujajnkukgkgj4krinimiuj3igh9hrhui8iqici2igjujil9irj9ilikizhli1i0ijiohli0idili3hcihirhkioi7h3imi8hyhkjfkdjeisi0iuhoixibj9iwgxjaj4ipjrhtiuiaj6hmk1irk5heizikihhqhhhbi7h9iqhok3hzhqhih3hvi2hsixhti4inj5isjlh5ili3j3hohihaiyhhhuhehnhvgdiagxhphtgwh0hfhthhh1hihgi0fng9i8hgj6itjjhtiihihkhfjngli2hjhihmhhhvhqi6hghegxhngziffni5gnj4j7j5j2idg0i2hvhpgoi6h0hqiehah8hbfxhpfvhdfrhsgpi7ioi3ifhsgyidini3hahzhhguichpj5i4h6hzi6i5iphxk4h1ighlhohsiahzhoi1imhii7gpk7h7lhi1jwixitjbjsigkzhokigukahji3ibhohthui9jhiajfhtimh7gffbgqhufji9gnh3mbbslnj0izi2jnjki8jihbjchwjof9k9ibjhlpldk4iti1iyj7jfjoiiiuijkji4lzhlimi5k0gzj3g6hph9h2hmiqi8hihqi6hqhmi0i1i8hxgugdhegbinhahzhohli4gxjhgojlh4i2h4i3iwjahkhkhdihhziqigivhfjji7i4hthci2iohwhphrhki4ifhtidiei7hvhdhphaijhjhvhqhchlidhohxjgh8jbhmkxi7iyj0kimbh9lfibj9j5jrlmk2kyifkxjwkym3j6itkyizj8jmnumei3nbixjlhyj4ipibhbi1hxi7i9iaishvi6inh1hqiniahfi4i9i5hni5icifiihyioivimhvhthlicingmidj2j2jeimjdi0iiish5ishoj5geikg4jc","4a90jahnieezioc9ijejhue5h7eri2jbhkj1h9koha","0eg0i1kbikk7i4khjklshxi5i6h8iwb4iph1ilhhiuiajnlijsj5j5jyj1gjiqhuj5gximi8hpflhzfoh3j2j3haicimi8i0huiciki4johnh0gwgyh2hjh3hz","1is3cvfjhzfihnf8ie","12y3cwb5g1ffiohjhrhji7iwi2f3iiekhqf9h4hai2ksiqfdhhjmiqi6hvkwi9huiakeicidhzh4hylzhti9h6jwhnkvizlgis","23o1c3jfi7i3i6hji0igibk2ifgvhrbuj3h4i4guhtjdgzkah1j8hsizie","1gx15xiyiuh1hlhahsiehjidia","1bh138hkigifh5hdhwhrifhvi8i8hdithzi1ik","0dp10vjfi0j3iufkhx","0uv0yig3icihhxjihqihi5hriai8hqhihw","0pa0ypjqj2jeichwi8k6hsi7ieeuikcrifg8h0h8gwhchihuh7idhpj2i4j5ijlri4i5i8","1qq0vvh9ixi8h9jygziqibhfhtggir","3af1bxjohpifi9hfigfni1ivhl","34119yhrhvj9ifh0hq","2yo1adhxhkiji2ifhti4ijh1i2","33819nflhpjehyjgihhlhw","2sg160h7i7i6hjinia","2wc16chqhoijhqisikgzi2","2uq147iqhwibi7gpishchwhrinhphoioh4iuhu","3fs21mk7i3inihgxiig9gy","2v615lhxhpilhviriihghzi1ibhaho","1j80ndibhkioichfhcechihsijhshphehwfticgth9h2hvi0hqish8iwhummi7meh3jfipiwkqhqjcg2kggvgghwhdi8ibi7hpgth3hyhl","1780nom8iydsh2","0pa0u9j9i4j6ikiciih7iifqiviwhfjehmezitg3hphmhgiohqi7hek7huighrgvhvhiiahihrk1hx","19226ogyhihnhdichyi7igijhrilibhhiaiai5iphnhnieihhyhgi6ihi9hiichthk","2k01jthoi4fygweufvhtg9ivfej9ggjfi8irhri9i2hoi5iti3lrghjvgbiggihbgphng2gngagfhgf1hvhqibhuhjfyguhkhfhheciqeahthrhri9hzhujgfmjvgrm3i5juhklxhqijjkjej4j0jsi4jbioi8i0i6hlhpi6ibhnhzhiiji9imhmhqhri5iikxkel3kojci3jyjhjlhyjcgxj1hnjjhiibhohaiphzhkhsihi0ifh1hrhsihhyivh2hzgxgnglgkhuh8hgh9hthhi5gshghmiji0hogwibgzj1i1ieimi8gwi5hvici0hphki6gvk6ibiiizi3hri5ifi4iei1iehlilighhiaicidiqhwi8hgiei9ibhaiii2hsikiri7inhpi0idf1j3gei3geifgniqftjtggk5gsnl","15b0yxjbhtgpi7"]).map(s => { const n = (a, b) => parseInt(s.slice(a, b), 36); let x = n(0, 3), y = n(3, 6); const p = [[9.9 + x / 5000, 55.6 + y / 5000]];
+  for (let i = 6; i < s.length; i += 4) { x += n(i, i + 2) - 648; y += n(i + 2, i + 4) - 648; p.push([9.9 + x / 5000, 55.6 + y / 5000]); } return p; });
 const WOOD = [[10.215,56.105,.022,.024],[10.225,56.183,.008,.006],[10.56,56.225,.05,.022],[10.53,56.115,.02,.012],[10.70,56.17,.02,.02],[10.13,56.02,.03,.02],[10.44,56.31,.05,.012],[10.30,56.30,.03,.015]];
-const TOWN = [[10.195,56.155,.045,.026],[10.275,56.215,.018,.008],[10.672,56.200,.012,.008],[10.16,55.975,.012,.007]];
-const NAMES = [["Aarhus",10.135,56.128],["Mols",10.56,56.24],["Helgenæs",10.53,56.118],["Ebeltoft",10.725,56.205],["Samsø",10.575,55.945],["Tunø",10.44,55.932,1],["Odder",10.145,55.975],["Kalø Vig",10.415,56.255,1],["Aarhus Bugt",10.37,56.065,1]];
-const FERRY = [[10.255,56.150],[10.36,56.10],[10.47,56.068],[10.62,56.045],[10.82,56.03]];
-const M = 640;
+const TOWN = [[10.875,56.413,.02,.01],[10.195,56.155,.045,.026],[10.275,56.215,.018,.008],[10.672,56.200,.012,.008],[10.16,55.975,.012,.007]];
+const NAMES = [["Aarhus",10.135,56.128],["Mols",10.56,56.24],["Helgenæs",10.53,56.118],["Ebeltoft",10.74,56.205],["Grenaa",10.80,56.418],["Djursland",10.62,56.36],["Samsø",10.60,55.86],["Tunø",10.44,55.932,1],["Odder",10.145,55.975],["Kalø Vig",10.415,56.255,1],["Aarhus Bugt",10.37,56.065,1],["Kattegat",10.86,56.03,1]];
+const FERRY = [[10.255,56.150],[10.36,56.10],[10.47,56.068],[10.62,56.045],[10.80,56.03]];
+const M = 560, H = 741;
 
-const land = new Uint8Array(M * M).fill(1);
+const land = new Uint8Array(M * H).fill(1);
 (function buildMask() {
-  const c = document.createElement("canvas"); c.width = c.height = M; const x = c.getContext("2d", { willReadFrequently:true });
-  x.lineWidth = 2.4; x.lineJoin = x.lineCap = "round";
-  for (const ch of COAST) { x.beginPath(); ch.forEach((p, i) => i ? x.lineTo(px(p[0]) * M, py(p[1]) * M) : x.moveTo(px(p[0]) * M, py(p[1]) * M)); x.stroke(); }
-  const a = x.getImageData(0, 0, M, M).data, st = [];
-  for (const s of [[10.40,56.08],[10.78,56.02],[10.33,55.94]]) st.push(Math.floor(py(s[1]) * M) * M + Math.floor(px(s[0]) * M));
+  const c = document.createElement("canvas"); c.width = M; c.height = H; const x = c.getContext("2d", { willReadFrequently:true });
+  x.lineWidth = 2; x.lineJoin = x.lineCap = "round";
+  for (const ch of COAST) { x.beginPath() ; ch.forEach((p, i) => i ? x.lineTo(px(p[0]) * M, py(p[1]) * H) : x.moveTo(px(p[0]) * M, py(p[1]) * H)); x.stroke(); }
+  const a = x.getImageData(0, 0, M, H).data, st = [];
+  for (const s of [[10.40,56.08],[10.78,56.02],[10.33,55.94],[10.92,56.20],[10.80,55.80]]) st.push(Math.floor(py(s[1]) * H) * M + Math.floor(px(s[0]) * M));
   while (st.length) { const i = st.pop(); if (!land[i] || a[i * 4 + 3] > 40) continue; land[i] = 0; const X = i % M;
-    if (X > 0) st.push(i - 1); if (X < M - 1) st.push(i + 1); if (i >= M) st.push(i - M); if (i < M * (M - 1)) st.push(i + M); }
+    if (X > 0) st.push(i - 1); if (X < M - 1) st.push(i + 1); if (i >= M) st.push(i - M); if (i < M * (H - 1)) st.push(i + M); }
 })();
 function blur(src, r) { // to gange boks-sløring
-  let a = Float32Array.from(src), b = new Float32Array(M * M);
+  let a = Float32Array.from(src), b = new Float32Array(M * H);
   for (let pass = 0; pass < 2; pass++) {
-    for (let y = 0; y < M; y++) { let s = 0; const o = y * M; for (let x = -r; x <= r; x++) s += a[o + Math.min(M - 1, Math.max(0, x))];
+    for (let y = 0; y < H; y++) { let s = 0; const o = y * M; for (let x = -r; x <= r; x++) s += a[o + Math.min(M - 1, Math.max(0, x))];
       for (let x = 0; x < M; x++) { b[o + x] = s / (2 * r + 1); s += a[o + Math.min(M - 1, x + r + 1)] - a[o + Math.max(0, x - r)]; } }
-    for (let x = 0; x < M; x++) { let s = 0; for (let y = -r; y <= r; y++) s += b[Math.min(M - 1, Math.max(0, y)) * M + x];
-      for (let y = 0; y < M; y++) { a[y * M + x] = s / (2 * r + 1); s += b[Math.min(M - 1, y + r + 1) * M + x] - b[Math.max(0, y - r) * M + x]; } }
+    for (let x = 0; x < M; x++) { let s = 0; for (let y = -r; y <= r; y++) s += b[Math.min(H - 1, Math.max(0, y)) * M + x];
+      for (let y = 0; y < H; y++) { a[y * M + x] = s / (2 * r + 1); s += b[Math.min(H - 1, y + r + 1) * M + x] - b[Math.max(0, y - r) * M + x]; } }
   }
   return a;
 }
-const near = blur(land, 4), far = blur(land, 26);
+const near = blur(land, 3), far = blur(land, 19);
 const h2 = (x, y) => { let h = (x * 374761393 + y * 668265263) ^ 0x5bd1e995; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
 const vn = (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), fx = x - xi, fy = y - yi, u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy);
   const a = h2(xi, yi), b = h2(xi + 1, yi), c = h2(xi, yi + 1), d = h2(xi + 1, yi + 1); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; };
@@ -242,7 +249,7 @@ const inBlob = (lon, lat, list) => list.some(b => ((lon - b[0]) / b[2]) ** 2 + (
 
 // havpixels tæt på kysten: hvor de ligger, hvilken vej der er ind mod land, og hvor kraftigt de farves
 const COASTAL = [];
-for (let y = 2; y < M - 2; y++) for (let x = 2; x < M - 2; x++) { const i = y * M + x; if (land[i]) continue; const f = far[i]; if (f < .05 || near[i] > .2) continue;
+for (let y = 2; y < H - 2; y++) for (let x = 2; x < M - 2; x++) { const i = y * M + x; if (land[i]) continue; const f = far[i]; if (f < .05 || near[i] > .2) continue;
   const gx = far[i + 2] - far[i - 2], gy = far[i + 2 * M] - far[i - 2 * M], l = Math.hypot(gx, gy); if (l < .004) continue;
   const br = fbm((x * .8 + y * .6) / 11, (y * .8 - x * .6) / 52), a = Math.min(1, (f - .05) / .12) * (.5 + br * .5);
   COASTAL.push({ i, x, y, gx:gx / l, gy:gy / l, a:Math.round(a * 215) }); }
@@ -251,9 +258,9 @@ function paint() {
   const cs = getComputedStyle(document.documentElement);
   const C = {}; for (const k of ["sea-1","sea-2","sea-3","sea-4","foam","sand","sand-2","land-hi","land","land-sh","autumn-hi","autumn","wood","town","town-2"]) {
     const v = cs.getPropertyValue("--" + k).trim().replace("#", ""); C[k] = [parseInt(v.slice(0, 2), 16), parseInt(v.slice(2, 4), 16), parseInt(v.slice(4, 6), 16)]; }
-  const ctx = $("#base").getContext("2d"), img = ctx.createImageData(M, M), d = img.data;
-  for (let y = 0; y < M; y++) for (let x = 0; x < M; x++) {
-    const i = y * M + x, lon = BOX.l + (x + .5) / M * (BOX.r - BOX.l), lat = BOX.t - (y + .5) / M * (BOX.t - BOX.b);
+  const ctx = $("#base").getContext("2d"), img = ctx.createImageData(M, H), d = img.data;
+  for (let y = 0; y < H; y++) for (let x = 0; x < M; x++) {
+    const i = y * M + x, lon = BOX.l + (x + .5) / M * (BOX.r - BOX.l), lat = BOX.t - (y + .5) / H * (BOX.t - BOX.b);
     const br = fbm((x * .8 + y * .6) / 11, (y * .8 - x * .6) / 52);   // lange penselstrøg
     const n = fbm(x / 44, y / 44);
     let k;
@@ -279,7 +286,7 @@ function paint() {
   }
   ctx.putImageData(img, 0, 0);
   ctx.setLineDash([3, 9]); ctx.lineWidth = 1.6; ctx.strokeStyle = "rgba(255,246,220,.55)"; ctx.beginPath();
-  FERRY.forEach((p, i) => i ? ctx.lineTo(px(p[0]) * M, py(p[1]) * M) : ctx.moveTo(px(p[0]) * M, py(p[1]) * M)); ctx.stroke(); ctx.setLineDash([]);
+  FERRY.forEach((p, i) => i ? ctx.lineTo(px(p[0]) * M, py(p[1]) * H) : ctx.moveTo(px(p[0]) * M, py(p[1]) * H)); ctx.stroke(); ctx.setLineDash([]);
 }
 
 /* ---------- vindlogik ---------- */
@@ -381,7 +388,7 @@ function buildStatic() {
   const mk = $("#markers");
   SPOTS.forEach(s => {
     const b = el("button", "spot"); b.type = "button"; b.dataset.id = s.id; b.style.left = px(s.lon) * 100 + "%"; b.style.top = py(s.lat) * 100 + "%";
-    const r = s.facing * Math.PI / 180, L = 28, kx = Math.sin(r) * L, ky = -Math.cos(r) * L;
+    const r = s.facing * Math.PI / 180, L = 22, kx = Math.sin(r) * L, ky = -Math.cos(r) * L;
     const line = el("span", "line"); line.style.width = L + "px"; line.style.transform = `rotate(${s.facing - 90}deg)`;
     const kite = el("span", "kite"); kite.style.left = kx + "px"; kite.style.top = ky + "px"; kite.append(el("b"));
     const tag = el("span", "tag"); tag.innerHTML = `<svg viewBox="0 0 16 16">${ARROW}</svg>`; tag.append(el("span", null, s.name)); tag.style.top = (ky - 11) + "px";
@@ -397,12 +404,12 @@ function windAt(x, y, res) {
   if (!sw) return null; const l = Math.hypot(sx, sy) || 1; return [sx / l, sy / l];
 }
 function paintShore(res) {
-  const ctx = $("#shore").getContext("2d"), img = ctx.createImageData(M, M), d = img.data, cs = getComputedStyle(document.documentElement);
+  const ctx = $("#shore").getContext("2d"), img = ctx.createImageData(M, H), d = img.data, cs = getComputedStyle(document.documentElement);
   const rgb = k => { const v = cs.getPropertyValue(k).trim().replace("#", ""); return [parseInt(v.slice(0, 2), 16), parseInt(v.slice(2, 4), 16), parseInt(v.slice(4, 6), 16)]; };
   const cSide = rgb("--side"), cOn = rgb("--onshore"), cOff = rgb("--off"), G = 32, field = [];
-  for (let gy = 0; gy <= G; gy++) for (let gx = 0; gx <= G; gx++) field.push(windAt(gx * M / G, gy * M / G, res));
+  for (let gy = 0; gy <= G; gy++) for (let gx = 0; gx <= G; gx++) field.push(windAt(gx * M / G, gy * H / G, res));
   for (const c of COASTAL) {
-    const w = field[Math.round(c.y * G / M) * (G + 1) + Math.round(c.x * G / M)]; if (!w) continue;
+    const w = field[Math.round(c.y * G / H) * (G + 1) + Math.round(c.x * G / M)]; if (!w) continue;
     const dot = w[0] * c.gx + w[1] * c.gy;                 // +1 = blæser lige ind mod land
     const k = dot > .906 ? cOn : dot > -.342 ? cSide : cOff, i = c.i * 4;
     d[i] = k[0]; d[i + 1] = k[1]; d[i + 2] = k[2]; d[i + 3] = c.a;
@@ -418,7 +425,7 @@ function render() {
   const at = new Date(D.at), hhmm = new Intl.DateTimeFormat("da-DK", { timeZone:TZ, hour:"2-digit", minute:"2-digit" }).format(at);
   $("#feed").className = "feed " + S.mode;
   $("#feedtxt").textContent = S.mode === "live" ? "Live · hentet " + hhmm : S.mode === "cache" ? "Offline · prognose fra " + hhmm : S.mode === "snap" ? "Prognose fra " + dayName(hourKey(at)) + " " + hhmm + " · ikke live her" : "Ingen aktuel prognose";
-  const res = SPOTS.map(s => ({ s, X:px(s.lon) * M, Y:py(s.lat) * M, w:wx(s.id, t), j:judge(s, wx(s.id, t)) }));
+  const res = SPOTS.map(s => ({ s, X:px(s.lon) * M, Y:py(s.lat) * H, w:wx(s.id, t), j:judge(s, wx(s.id, t)) }));
   res.forEach(r => { const b = $(`.spot[data-id="${r.s.id}"]`); b.className = "spot " + r.j.level + (r.s.id === S.sel && S.open ? " sel" : ""); $("b", b).textContent = r.w?.ws == null ? "?" : Math.round(r.w.ws);
     $("svg", b).style.transform = `rotate(${(r.w?.wd ?? 0) + 180}deg)`;
     b.setAttribute("aria-label", `${r.s.name}: ${fmt(r.w?.ws)} meter i sekundet, ${r.j.kind}, ${r.j.word}`); b.setAttribute("aria-pressed", r.s.id === S.sel && S.open); });
@@ -431,9 +438,9 @@ function render() {
 }
 
 function renderInfo(r) {
-  const D = S.data, t = S.t, s = r.s, w = r.w || {}, box = $("#info"); box.textContent = ""; box.hidden = !S.open; if (!S.open) return;
+  const D = S.data, t = S.t, s = r.s, w = r.w || {}, box = $("#info"); box.textContent = ""; 
   const head = el("header"), hl = el("div"); hl.append(el("span", "label", whenText(t)), el("h2", null, s.name));
-  const x = el("button", "x", "×"); x.type = "button"; x.setAttribute("aria-label", "Luk"); x.addEventListener("click", () => { S.open = false; render(); }); head.append(hl, x);
+  head.append(hl);
   const v = el("div", "verdict"); v.append(el("span", "chip " + r.j.level, r.j.word), el("strong", null, r.j.kind));
   const wd = el("div", "wind"), ang = w.wd == null ? 0 : rel(w.wd, s.facing);
   wd.innerHTML = `<svg viewBox="0 0 100 100" role="img" aria-label="Vindens vinkel på kysten"><rect width="100" height="62" fill="var(--sea-2)"/><path d="M0 50q25-7 50 0t50 0v14H0z" fill="var(--sea-3)"/><path d="M0 58q25-6 50 0t50 0v10H0z" fill="var(--foam)"/><path d="M0 63q25-6 50 0t50 0v37H0z" fill="var(--sand)"/><g transform="rotate(${ang} 50 50)"><path d="M46 12h8v44h9L50 76 37 56h9z" fill="var(--accent)" stroke="#fff6dc" stroke-width="2.5" stroke-linejoin="round"/></g></svg>`;
@@ -453,11 +460,11 @@ function renderInfo(r) {
 
 /* ---------- vinden som tråde over vandet ---------- */
 const wctx = $("#wind").getContext("2d"), still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const parts = Array.from({ length:54 }, () => ({ x:Math.random() * M, y:Math.random() * M, life:Math.random() * 120 }));
+const parts = Array.from({ length:54 }, () => ({ x:Math.random() * M, y:Math.random() * H, life:Math.random() * 120 }));
 let tk = 0;
 function tick() {
   tk++;
-  wctx.globalCompositeOperation = "destination-out"; wctx.fillStyle = "rgba(0,0,0,.045)"; wctx.fillRect(0, 0, M, M);
+  wctx.globalCompositeOperation = "destination-out"; wctx.fillStyle = "rgba(0,0,0,.045)"; wctx.fillRect(0, 0, M, H);
   wctx.globalCompositeOperation = "source-over"; wctx.lineCap = "round";
   const wd = S.wind;
   if (wd) {
@@ -465,7 +472,7 @@ function tick() {
     const base = (wd.dir + 180) * Math.PI / 180, v = Math.min(4.2, .5 + wd.sp * .22);
     for (const p of parts) {
       const a = base + (fbm(p.x / 120 + tk * .002, p.y / 120) - .5) * 1.5, nx = p.x + Math.sin(a) * v, ny = p.y - Math.cos(a) * v; p.life--;
-      if (p.life < 0 || nx < 0 || ny < 0 || nx >= M || ny >= M) { p.x = Math.random() * M; p.y = Math.random() * M; p.life = 80 + Math.random() * 140; continue; }
+      if (p.life < 0 || nx < 0 || ny < 0 || nx >= M || ny >= H) { p.x = Math.random() * M; p.y = Math.random() * H; p.life = 80 + Math.random() * 140; continue; }
       if (!land[Math.floor(ny) * M + Math.floor(nx)]) { wctx.strokeStyle = thread; wctx.globalAlpha = .55; wctx.lineWidth = 1.7; wctx.beginPath(); wctx.moveTo(p.x, p.y); wctx.lineTo(nx, ny); wctx.stroke(); wctx.globalAlpha = 1; }
       p.x = nx; p.y = ny;
     }
